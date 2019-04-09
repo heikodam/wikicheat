@@ -1,0 +1,10 @@
+
+#stuff to install
+flask
+werkzeug.security
+flask_sqlalchemy
+os
+psycopg2
+time
+requests
+bs4

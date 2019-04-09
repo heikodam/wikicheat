@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import os
 import psycopg2
+import time
 
 #my imports
 from connect_db_test import get_db
@@ -118,21 +119,52 @@ def wikiCheat():
         elif not checkIfExsits(end_link):
             return render_template("wikicheat.html", errormessage = "The second link you enterd does not exsits")
 
-
+        start_time = time.time()
         path_length = degree_distance(start_link, end_link)
-        runtime = "22"
+        runtime = round(time.time() - start_time, 3)
 
         user_id = session['user_id']
         cursor = get_db()
         cursor.execute("INSERT INTO wikipages (title) VALUES ('{0}') ON CONFLICT DO NOTHING;".format(start_link))
         cursor.execute("INSERT INTO wikipages (title) VALUES ('{0}') ON CONFLICT DO NOTHING;".format(end_link))
-        cursor.execute("""INSERT INTO history (user_id, start_link, end_link, degrees_away) 
+        cursor.execute("""INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) 
                         VALUES (
                             {user_id},
                             (SELECT wiki_id FROM wikiPages WHERE title='{start_link}'),
                             (SELECT wiki_id FROM wikiPages WHERE title='{end_link}'),
-                            {degrees_away}
+                            {degrees_away},
+                            {runtime}
                         );""".format(user_id=user_id, start_link=start_link, end_link=end_link, degrees_away=path_length, runtime=runtime))
+
+        cursor.execute("SELECT MAX(history_id) FROM history;")        
+        history_id = cursor.fetchall()[0][0]
+
+        #check all records
+        cursor.execute("SELECT r.type_of_record, h.degrees_away ,h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;")
+        records = cursor.fetchall()
+        print(records)
+        print("Runtime: {}".format(runtime))
+        for record in records:
+            print(record[2])
+            if record[0] == 'longest_runtime' and runtime > record[2]:
+                print("Updating Now")
+                cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_runtime"))
+            if record[0] == 'shortest_runtime' and runtime < record[2]:
+                print("Updating Now")
+                cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "shortest_runtime"))
+            if record[0] == 'longest_path' and path_length > record[1]:
+                print("Updating Now")
+                cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
+            #Update most recent history
+            cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
+
+
+
+
+
+        
+        
+
         cursor.close()
 
         return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length))
@@ -218,6 +250,31 @@ def settings():
             return render_template("settings.html", personal_data = personal_data)
         else:
             return redirect("/")
+
+@app.route('/statistics', methods=('GET', 'POST'))
+def statistics():
+    if "user_id" in session:
+
+        cursor = get_db()
+        user_id = session['user_id']
+        records = []
+
+        cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link 
+                            FROM records r 
+                            LEFT JOIN history h 
+                            ON r.history_id = h.history_id 
+                            INNER JOIN users u
+                            ON h.user_id = u.user_id
+                            INNER JOIN wikiPages s
+                            ON h.start_link = s.wiki_id
+							INNER JOIN wikiPages e
+                            ON h.end_link = e.wiki_id;""")
+        records = cursor.fetchall()
+        print(records)
+
+        return render_template("statistics.html", records = records)
+    else:
+        return redirect("/")
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ CREATE TABLE history (
 	degrees_away INTEGER,
 	date DATE DEFAULT CURRENT_DATE,
 	time TIME DEFAULT CURRENT_TIME,
-	runtime TIME
+	runtime NUMERIC
 );
 
 CREATE TABLE records (
@@ -43,6 +43,17 @@ CREATE TABLE records (
 	type_of_record TEXT NOT NULL,
 	history_id INTEGER REFERENCES history(history_id)
 );
+
+-- INSERT INTO wikipages (title) VALUES ('Nothing');
+-- INSERT INTO wikipages (title) VALUES ('Nothing');
+-- INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (11, 1, 1, 2, '00:02:21');
+
+INSERT INTO records (type_of_record, history_id) VALUES ('longest_runtime', 1);
+INSERT INTO records (type_of_record, history_id) VALUES ('shortest_runtime', 1);
+INSERT INTO records (type_of_record, history_id) VALUES ('longest_path', 1);
+INSERT INTO records (type_of_record, history_id) VALUES ('most_recent', 1);
+INSERT INTO records (type_of_record, history_id) VALUES ('most_popular_start_page', 1);
+INSERT INTO records (type_of_record, history_id) VALUES ('most_popular_end_page', 1);
 
 
 
@@ -58,3 +69,5 @@ CREATE TABLE records (
 
 
 --INSERT INTO users (full_name, email, hash, gender) VALUES ('Heiko Damaske', 'heiko.damaske@gmail.com', '1234', (SELECT gender_id FROM gender WHERE gender = 'male'))
+
+-- SELECT r.type_of_record, h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;

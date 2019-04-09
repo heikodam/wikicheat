@@ -2,11 +2,21 @@
 
 {% block content %}
 
-{% if statistics %}
+{% if records %}
+    <h1>History</h1>
+    <p>{{history}}</p>
+    {% for record in records %}
+        <div>
+            <ul>
+                <li>Record: {{record[0]}}</li>
+                <li>Record-Holder: {{record[1]}}</li>
+                <li>Runtime: {{record[2]}}</li>
+                <li>Start Link: {{record[3]}}</li>
+                <li>End Link: {{record[4]}}</li>
+            </ul>
+        </div>
+    {% endfor %}
 
-<h1>History</h1>
-<p>{{history}}</p>
-
-{% endblock %}
+{% endif %}
 
 {% endblock %}
