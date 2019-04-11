@@ -13,6 +13,6 @@
       <input type="radio" name="gender" value="female"> Female<br>
       <input type="radio" name="gender" value="other"> Other  
     </fieldset>
-    <input type="submit" value="Register">
+    <input type="submit" value="Register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register (Loged Out)'});">
   </form>
 {% endblock %}

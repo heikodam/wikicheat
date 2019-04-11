@@ -5,7 +5,7 @@
 <form action="/wikicheat" method="POST">
     <input type="text" name="start_link" id="start_link" placeholder="Start Title" required>
     <input type="text" name="end_link" id="end_link" placeholder="End Title" required>
-    <input type="submit" id="start-link" Value="Start Calculate">
+    <input type="submit" id="start-link" Value="Start Calculate" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'WikiCheat (Logged In)'});">
 </form>
 
 {% if results%}

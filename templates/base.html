@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% if dataLayer %}
+        <script>
+           window.dataLayer = window.dataLayer || [];
+           window.dataLayer.push({{ dataLayer|tojson }})
+        </script>
+    {% endif %}
+
+
     <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -21,15 +29,15 @@
     <nav>
         <ul>
             {% if session['user_id'] %}
-                <li><a href="/wikicheat">Wiki Cheat</a>
-                <li><a href="/statistics">Statistics</a>
-                <li><a href="/about">About</a>
-                <li><a href="/settings">Settings</a>
-                <li><a href="/logout">Log Out</a>
+                <li><a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
+                <li><a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
+                <li><a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
+                <li><a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
+                <li><a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
             {% else %}
-                <li><a href="/about">About</a>
-                <li><a href="/login">Log In</a>
-                <li><a href="/register">Register</a>
+                <li><a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
+                <li><a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
+                <li><a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
             {% endif %}
         </ul>
     </nav>

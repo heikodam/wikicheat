@@ -1,10 +1,11 @@
 #external imports
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import os
 import psycopg2
 import time
+#import json
 
 #my imports
 from connect_db_test import get_db
@@ -54,7 +55,14 @@ def register():
         gender_id = cursor.fetchall()[0][0]
         cursor.execute("INSERT INTO users (full_name, email, hash, gender) VALUES ('{}', '{}', '{}', '{}');".format(entered_name, entered_email, hash, gender_id))
 
-        return render_template("registration.html", errormessage = "The account was successfully created")
+        cursor.execute("SELECT user_id FROM users WHERE email ='{}' ".format(entered_email))
+        user_id = cursor.fetchall()[0][0]
+
+        session['user_id'] = user_id
+        dataLayer = {"event": "newUser", "user_id": user_id, "name": entered_name, "newUser": True, "email": entered_email}
+        session['dataLayer'] = dataLayer
+
+        return redirect("/wikicheat")
 
 
         
@@ -78,15 +86,17 @@ def login():
         #get data from db
         cursor = get_db()
 
-        cursor.execute("SELECT user_id, email, hash FROM users WHERE email = '{}' ".format(entered_email))
+        cursor.execute("SELECT user_id, email, hash, full_name FROM users WHERE email = '{}' ".format(entered_email))
         user = cursor.fetchall()
-
+        
         if len(user) == 1:
             user_id = user[0][0]
             db_email = user[0][1]
             db_hash = user[0][2]
+            db_name = user[0][3]
             if db_email == entered_email and check_password_hash(db_hash, entered_password):
                 session['user_id'] = user_id
+                session['dataLayer'] = {"event": "newUser", "user_id": user_id, "name": db_name, "newUser": "False", "email": db_email}
                 return redirect("/wikicheat")
             else:
                 return render_template("login.html", errormessage = "You entered the wrong login information")
@@ -96,6 +106,7 @@ def login():
     else:
         if "user_id" in session:
             return redirect("/wikicheat")
+
         return render_template("login.html")
 
 
@@ -158,21 +169,16 @@ def wikiCheat():
             #Update most recent history
             cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
 
-
-
-
-
-        
-        
-
         cursor.close()
 
         return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length))
 
-
     else:
         if 'user_id' in session:
-            return render_template("wikicheat.html")
+            #dataLayer = None
+            if 'dataLayer' in session:
+                dataLayer = session.pop('dataLayer')
+            return render_template("wikicheat.html", dataLayer=dataLayer)
         else:
             return redirect("/")
 
