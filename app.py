@@ -23,7 +23,7 @@ def home():
     if "user_id" in session:
         return redirect("/wikicheat")
     else:
-        return render_template("login.html")
+        return redirect("/login")
     
 
 @app.route("/register", methods=('GET', 'POST'))
@@ -59,7 +59,7 @@ def register():
         user_id = cursor.fetchall()[0][0]
 
         session['user_id'] = user_id
-        dataLayer = {"event": "newUser", "user_id": user_id, "name": entered_name, "newUser": True, "email": entered_email}
+        dataLayer = {"event": "newUser", "user_id": user_id, "name": entered_name, "newUser": "New User", "email": entered_email}
         session['dataLayer'] = dataLayer
 
         return redirect("/wikicheat")
@@ -96,7 +96,7 @@ def login():
             db_name = user[0][3]
             if db_email == entered_email and check_password_hash(db_hash, entered_password):
                 session['user_id'] = user_id
-                session['dataLayer'] = {"event": "newUser", "user_id": user_id, "name": db_name, "newUser": "False", "email": db_email}
+                session['dataLayer'] = {"event": "newUser", "user_id": user_id, "name": db_name, "newUser": "Returning User", "email": db_email}
                 return redirect("/wikicheat")
             else:
                 return render_template("login.html", errormessage = "You entered the wrong login information")
@@ -170,12 +170,13 @@ def wikiCheat():
             cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
 
         cursor.close()
+        dataLayer = {"event": "wikicheat", "user_id": user_id}
+        return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length), dataLayer=dataLayer)
 
-        return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length))
-
-    else:
+    else: 
         if 'user_id' in session:
-            #dataLayer = None
+            print("Right Here")
+            dataLayer = None
             if 'dataLayer' in session:
                 dataLayer = session.pop('dataLayer')
             return render_template("wikicheat.html", dataLayer=dataLayer)
@@ -239,19 +240,16 @@ def settings():
             #get data from db
             cursor = get_db()
             user_id = session['user_id']
-            print(user_id)
             cursor.execute("""SELECT u.full_name, u.email, d.gender FROM users u 
                                 JOIN gender d 
                                 ON u.gender = d.gender_id
                                 WHERE user_id = {};  
                                 """.format(user_id))
             user = cursor.fetchall()
-            print(user)
             personal_data = {}
             personal_data["full_name"] = user[0][0]
             personal_data["email"] = user[0][1]
             personal_data[user[0][2]] = "checked"
-            print(personal_data)
 
             return render_template("settings.html", personal_data = personal_data)
         else:
