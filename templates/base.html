@@ -20,27 +20,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    
+    
+    <!-- Get Code from Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+    {% block header %}{% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <script src="{{ url_for('static', filename='javascript/base.js') }}"></script>
+
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZQ8GXP"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <nav>
+    
+        <!-- START OF NAVBAR -->
+
+        <div class="header">
+            <h2 class="logo">wikicheat</h2>
+            <input type="checkbox" id="chk">
+            <label for="chk" class="show-menu-btn">
+                <i class="fas fa-ellipsis-h"></i>
+            </label>
+
+            <ul class="menu">
+                    {% if session['user_id'] %}
+                        <a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
+                        <a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
+                        <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
+                        <a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
+                        <a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
+                    {% else %}
+                        <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
+                        <a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
+                        <a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
+                    {% endif %}
+                    <label for="chk" class="hide-menu-btn">
+                            <i class="fas fa-times"></i>
+                        </label>
+                </ul>
+        </div>
+
+
+
+        <!-- END OF NAVBAR -->
+
+
+
+
+
+
         <ul>
             {% if session['user_id'] %}
-                <li><a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
-                <li><a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
-                <li><a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
-                <li><a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
-                <li><a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
+                <a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
+                <a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
+                <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
+                <a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
+                <a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
             {% else %}
-                <li><a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
-                <li><a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
-                <li><a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
+                <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
+                <a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
+                <a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
             {% endif %}
         </ul>
-    </nav>
+    
 
     
     {% if errormessage %}
