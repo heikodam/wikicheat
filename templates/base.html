@@ -45,24 +45,42 @@
         <!-- START OF NAVBAR -->
 
         <div class="header">
-            <h2 class="logo">wikicheat</h2>
+            <!-- <h2 class="logo">wikicheat</h2> -->
+            <div id="header-bg-dark"> </div>
+            <div id="header-bg-orange"> </div>
             <input type="checkbox" id="chk">
             <label for="chk" class="show-menu-btn">
-                <i class="fas fa-ellipsis-h"></i>
+                <div class="div-show-menu-btn">
+                    Menu
+                </div> 
             </label>
+                <!-- <i class="fas fa-ellipsis-h">Show Menu</i> -->
+            
 
             <ul class="menu">
                     {% if session['user_id'] %}
-                        <a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
-                        <a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
-                        <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
-                        <a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
-                        <a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
+                        <hr class="menu-hr">
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
+                        <hr class="menu-hr">
                     {% else %}
-                        <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
-                        <a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
-                        <a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
+                        <hr class="menu-hr">
                     {% endif %}
+
                     <label for="chk" class="hide-menu-btn">
                             <i class="fas fa-times"></i>
                         </label>
@@ -73,24 +91,6 @@
 
         <!-- END OF NAVBAR -->
 
-
-
-
-
-
-        <ul>
-            {% if session['user_id'] %}
-                <a href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
-                <a href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
-                <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged In)'});">About</a>
-                <a href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
-                <a href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
-            {% else %}
-                <a href="/about" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV About (Loged Out)'});">About</a>
-                <a href="/login" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged Out)'});">Log In</a>
-                <a href="/register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Register (Loged Out)'});"> Register</a>
-            {% endif %}
-        </ul>
     
 
     

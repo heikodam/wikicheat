@@ -1,18 +1,44 @@
 {% extends 'base.html' %}
 {% block title %}Registration{% endblock %}
+
+{% block header%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lrs.css') }}">
+{% endblock %}
+
+
 {% block content %}
-<h1>Welcome to the Registration Page</h1>
 <form action="/register" method="post">
-    <input name="full_name" id="full_name" placeholder="Full Name" required>
-    <input name="email" id="email" placeholder="Email" required>
-    <input type="password" name="password" id="password" placeholder="Password" required>
-    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+    <input name="full_name" id="full_name" class="info" placeholder="Full Name" required>
+
     <!-- What Gender -->
     <fieldset id="gender">
-      <input type="radio" name="gender" value="male" required> Male<br>
-      <input type="radio" name="gender" value="female"> Female<br>
-      <input type="radio" name="gender" value="other"> Other  
+      <label for="gender" id="gender-lbl">Gender</label>
+
+      <input type="radio" name="gender" id="male-radio" class="radio" value="male" required>
+      <label for="male-radio" id="male-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender male grey.png') }}" alt="male img" class="img-gender"></label>
+      <label for="male-radio" id="selected-male-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender male orange.png') }}" alt="male img" class="img-gender"></label>
+
+      <input type="radio" name="gender" id="female-radio" class="radio" value="female">
+      <label for="female-radio" id="female-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender female grey.png') }}" alt="female img" class="img-gender"></label>
+      <label for="female-radio" id="selected-female-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender female orange.png') }}" alt="female img" class="img-gender"></label>
+
+
+      <input type="radio" name="gender" id="other-radio" class="radio" value="other"> 
+      <label for="other-radio" id="other-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender neutral grey.png') }}" alt="other img" class="img-gender"></label>
+      <label for="other-radio" id="selected-other-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender neutral orange.png') }}" alt="other img" class="img-gender"></label>
+
+
     </fieldset>
-    <input type="submit" value="Register" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register (Loged Out)'});">
+
+    <input name="email" id="email" class="info" placeholder="Email" required>
+    <input type="password" name="password" id="password" class="info" placeholder="Password" required>
+    <input type="password" name="confirm_password" id="confirm_password" class="info" placeholder="Confirm Password" required>
+    
+    <input type="submit" value="Register" id="register-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register (Loged Out)'});">
   </form>
+
+  <form action="/login">
+    <input type="submit" value="Login" id="login-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register btn on Login'});">
+    </form>
+
 {% endblock %}

@@ -46,6 +46,7 @@ def register():
         
         #check if email already exists
         cursor.execute("SELECT email FROM users WHERE email = '{}' ".format(entered_email))
+
         user = cursor.fetchall()
         if len(user) > 0:
             return render_template("registration.html", errormessage = "There is already an email assigned to this account")

@@ -1,0 +1,125 @@
+:root{
+    --main-orange: #FF6519;
+    --main-dark: #12121E;
+}
+
+body{
+    background-color: var(--main-dark)
+}
+
+
+/* Form */
+
+form input{
+    display: block;
+    border: none;
+}
+
+.info{
+    background: transparent;
+    border-bottom: 2px solid var(--main-orange);
+    margin: 50px auto;
+    color: var(--main-orange);
+    font-size: 30px;
+    padding: 0;
+}
+
+.info:focus{
+    outline: 0;
+    /* border: 1px solid var(--main-orange); */
+    border-bottom: 2px solid var(--main-orange);
+}
+
+.btn{
+    width: 100%;
+    background-color: var(--main-orange);
+    color: var(--main-dark);
+}
+
+#register-btn, #login-btn{
+    margin-top: 50px;
+}
+
+.btn:hover{
+    cursor: pointer;
+}
+
+
+/* radio btn select gender */
+#gender{
+    border: none;
+    text-align: center;
+}
+
+.radio{
+    display: none;
+}
+
+#gender-lbl{
+    display: block;
+}
+
+.lbl{
+    padding: 30px;
+    display: inline;
+}
+
+.lbl:hover{
+    cursor: pointer;
+}
+
+.img-gender{
+    height: 100px;
+    width: auto;
+}
+
+/* Change Color on Click */
+.selected{
+    display: none;
+}
+
+#male-radio:checked ~ #selected-male-lbl{
+    display: inline;
+}
+#male-radio:checked ~ #male-lbl{
+    display: none;
+}
+
+
+#female-radio:checked ~ #selected-female-lbl{
+    display: inline;
+}
+#female-radio:checked ~ #female-lbl{
+    display: none;
+}
+
+
+#other-radio:checked ~ #selected-other-lbl{
+    display: inline;
+}
+#other-radio:checked ~ #other-lbl{
+    display: none;
+}
+
+/* End Change Color On Click */
+
+/* end select gender */
+
+
+@media screen and (max-width: 800px){
+    .btn{
+        width: 100%;
+        height: 80px;
+        background-color: var(--main-orange);
+        color: var(--main-dark);
+        font-size: 50px;
+    }
+    .info{
+        width: 70%;
+        height: 80px;
+    }
+}
+
+
+
+/* End Form */

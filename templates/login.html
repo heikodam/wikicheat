@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
 
+{% block header%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lrs.css') }}">
+{% endblock %}
+
 
 {% block content %}
-<h1>Welcome to the login Page, login to begin your journey</h1>
 
 <form action="/login" method="post">
-    <input name="email" id="email" placeholder="Email" required>
-    <input type="password" name="password" id="password" placeholder="Password" required>
-    <input type="submit" value="Log In" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Login'});" >
+    <input name="email" class="info" id="email" placeholder="Email" required>
+    <input type="password" name="password" class="info" id="password" placeholder="Password" required>
+    <input type="submit" value="Log In" id="login-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Login'});" >
+  </form>
+
+  <form action="/register">
+  <input type="submit" value="Register" id="register-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register btn on Login'});">
   </form>
 
 {% endblock %}
