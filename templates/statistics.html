@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
 {% block title %}Statistics{% endblock %}
+
+{% block header%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
+{% endblock %}
+
 {% block content %}
 
 {% if records %}
     <h1>History</h1>
     <p>{{history}}</p>
     {% for record in records %}
-        <div>
+        <div class="record" id="{{record[0]}}">
             <ul>
-                <li>Record: {{record[0]}}</li>
-                <li>Record-Holder: {{record[1]}}</li>
+                <li>{{record[0] | replace("_", " ") | capitalize}}</li>
+                <li>by {{record[1]}}</li>
                 <li>Runtime: {{record[2]}}</li>
                 <li>Start Link: {{record[3]}}</li>
                 <li>End Link: {{record[4]}}</li>
+                {% if record[5] %}
+                <li>Distance: {{record[5]}}</li>
+                {% endif %}
             </ul>
         </div>
     {% endfor %}

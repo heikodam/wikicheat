@@ -60,7 +60,8 @@ def register():
         user_id = cursor.fetchall()[0][0]
 
         session['user_id'] = user_id
-        dataLayer = {"event": "newUser", "user_id": user_id, "name": entered_name, "newUser": "New User", "email": entered_email}
+        session['user_engagement'] = { "event": "engagement", "user_id": user_id, "games_played": 0}
+        dataLayer = {"event": "newUser", "user_id": user_id, "newUser": "New User"}
         session['dataLayer'] = dataLayer
 
         return redirect("/wikicheat")
@@ -97,7 +98,8 @@ def login():
             db_name = user[0][3]
             if db_email == entered_email and check_password_hash(db_hash, entered_password):
                 session['user_id'] = user_id
-                session['dataLayer'] = {"event": "newUser", "user_id": user_id, "name": db_name, "newUser": "Returning User", "email": db_email}
+                session['user_engagement'] = {"event": "engagement", "user_id": user_id, "games_played": 0}
+                session['dataLayer'] = {"event": "newUser", "user_id": user_id, "newUser": "Returning User", }
                 return redirect("/wikicheat")
             else:
                 return render_template("login.html", errormessage = "You entered the wrong login information")
@@ -171,7 +173,12 @@ def wikiCheat():
             cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
 
         cursor.close()
+
         dataLayer = {"event": "wikicheat", "user_id": user_id}
+        print(session['user_engagement']['games_played'])
+        session['user_engagement']['games_played'] += 1
+        session.modified = True
+        print(session['user_engagement']['games_played'])
         return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length), dataLayer=dataLayer)
 
     else: 
@@ -213,12 +220,18 @@ def settings():
         personal_data["email"] = user[0][1]
         personal_data["old_hash"] = user[0][2]
         personal_data["gender"] = user[0][3]
+        print(entered_data['gender'])
+        print(personal_data)
 
 
         if personal_data['full_name'] != entered_data['full_name']:
             cursor.execute("UPDATE users SET full_name = '{}' WHERE user_id = {};".format(entered_data['full_name'], user_id))
         if personal_data['email'] != entered_data['email']:
             cursor.execute("UPDATE users SET email = '{}' WHERE user_id = {};".format(entered_data['email'], user_id))
+        if personal_data['gender'] != entered_data['gender']:
+            cursor.execute("UPDATE users SET gender = (SELECT gender_id FROM gender WHERE gender = '{}') WHERE user_id = {};".format(entered_data['gender'], user_id))
+
+        
 
         if check_password_hash(personal_data['old_hash'], entered_data['old_password']):
             if not entered_data['new_password'] or not entered_data['confirm_password'] or entered_data['new_password'] != entered_data['confirm_password']:
@@ -232,7 +245,7 @@ def settings():
         # print(personal_data)
         # print(entered_data)
 
-        return render_template("settings.html", errormessage = 'Successful Query')
+        return redirect("/")
 
     
     else:
@@ -264,7 +277,7 @@ def statistics():
         user_id = session['user_id']
         records = []
 
-        cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link 
+        cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link,  h.degrees_away
                             FROM records r 
                             LEFT JOIN history h 
                             ON r.history_id = h.history_id 

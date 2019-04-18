@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}WikiCheat{% endblock %}
+
+{% block header%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/wikicheat.css') }}">
+<script src="{{ url_for('static', filename='javascript/wikicheat.js') }}"></script>
+{% endblock %}
+
+
 {% block content %}
+<div id="main" ondrop="drop(event)" ondragover="allowDrop(event)">
 <h1>Start Caluclating Your Wiki Pages Distance</h1>
 <form action="/wikicheat" method="POST">
     <input type="text" name="start_link" id="start_link" placeholder="Start Title" required>
@@ -8,9 +16,17 @@
     <input type="submit" id="start-link" Value="Start Calculate" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'WikiCheat (Logged In)'});">
 </form>
 
+
+<img src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
+<div id="container" class="section">
+    <div class="circle"></div>
+</div>
+
 {% if results%}
 
     <h1>Here are some results</h1>
 {% endif %}
+
+</div>
 
 {% endblock %}

@@ -8,27 +8,27 @@
 {% block content %}
 
 {% if personal_data %}
-<form method="post">
+<form method="post" id="setting-form">
     <input name="full_name" id="full_name" placeholder="Full Name" class="info" value="{{personal_data['full_name']}}" required>
 
-    <fieldset id="gender">
-        <label for="gender" id="gender-lbl">Gender</label>
-  
-        <input type="radio" name="gender" id="male-radio" class="radio" value="male" {{personal_data['male']}} required>
-        <label for="male-radio" id="male-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender male grey.png') }}" alt="male img" class="img-gender"></label>
-        <label for="male-radio" id="selected-male-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender male orange.png') }}" alt="male img" class="img-gender"></label>
-  
-        <input type="radio" name="gender" id="female-radio" class="radio" value="female" {{personal_data['female']}}>
-        <label for="female-radio" id="female-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender female grey.png') }}" alt="female img" class="img-gender"></label>
-        <label for="female-radio" id="selected-female-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender female orange.png') }}" alt="female img" class="img-gender"></label>
-  
-  
-        <input type="radio" name="gender" id="other-radio" class="radio" value="other" {{personal_data['other']}}> 
-        <label for="other-radio" id="other-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender neutral grey.png') }}" alt="other img" class="img-gender"></label>
-        <label for="other-radio" id="selected-other-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender neutral orange.png') }}" alt="other img" class="img-gender"></label>
-  
-  
-      </fieldset>
+      <fieldset id="gender">
+          <div id="gender-div">
+          <!-- <label for="gender" id="gender-lbl">Gender</label> -->
+    
+          <input type="radio" name="gender" id="male-radio" class="radio" value="male" {{personal_data['male']}} required>
+          <label for="male-radio" id="male-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender male grey.png') }}" alt="male img" class="img-gender"></label>
+          <label for="male-radio" id="selected-male-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender male orange.png') }}" alt="male img" class="img-gender"></label>
+    
+          <input type="radio" name="gender" id="female-radio" class="radio" value="female" {{personal_data['female']}}>
+          <label for="female-radio" id="female-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender female grey.png') }}" alt="female img" class="img-gender"></label>
+          <label for="female-radio" id="selected-female-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender female orange.png') }}" alt="female img" class="img-gender"></label>
+    
+    
+          <input type="radio" name="gender" id="other-radio" class="radio" value="other" {{personal_data['other']}}> 
+          <label for="other-radio" id="other-lbl" class="lbl"><img src="{{ url_for('static', filename='pictures/gender neutral grey.png') }}" alt="other img" class="img-gender"></label>
+          <label for="other-radio" id="selected-other-lbl" class="lbl selected"><img src="{{ url_for('static', filename='pictures/gender neutral orange.png') }}" alt="other img" class="img-gender"></label>
+        </div>
+        </fieldset>
 
 
     <input name="email" id="email" class="info" placeholder="Email" value="{{personal_data['email']}}" required>
@@ -37,8 +37,9 @@
     <input type="password" name="old_password" id="old_password" class="info" placeholder="Old Password">
     <input type="password" name="password" id="password" class="info" placeholder="Password">
     <input type="password" name="confirm_password" id="confirm_password" class="info" placeholder="Confirm Password">
-    <input type="submit" id="save-btn" class="btn" value="Save" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Settings (Logged In)'});">
   </form>
+  <input type="submit" id="save-btn" class="btn" value="Save" form="setting-form" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Settings (Logged In)'});">
+
 {% endif %}
 
 

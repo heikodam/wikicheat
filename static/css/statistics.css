@@ -1,0 +1,16 @@
+:root{
+    --main-orange: #FF6519;
+    --main-dark: #12121E;
+}
+
+.record{
+    border: solid 2px var(--main-orange);
+    box-shadow: 5px 10px 8px var(--main-dark);
+    margin: 20px;
+    padding: 20px;
+    display: inline-block;
+}
+
+ul{
+    list-style-type: none;
+}

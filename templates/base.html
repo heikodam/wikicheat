@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- Push Successful Login/ Registration Custom Event to GA -->
     {% if dataLayer %}
         <script>
            window.dataLayer = window.dataLayer || [];
            window.dataLayer.push({{ dataLayer|tojson }})
         </script>
+    {% endif %}
+
+    <!-- Push User Status -->
+    {% if session['user_id'] %}
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({'user_id': {{session['user_id']}}})
+         </script>
     {% endif %}
 
 
@@ -16,6 +26,10 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-PZQ8GXP');</script>
         <!-- End Google Tag Manager -->
+
+
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
@@ -60,7 +74,7 @@
             <ul class="menu">
                     {% if session['user_id'] %}
                         <hr class="menu-hr">
-                            <a class="nav-link" href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Wikicheat (Loged In)'});">Wiki Cheat</a>
+                            <a class="nav-link" href="/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV (Loged In)'});">Wiki Cheat</a>
                         <hr class="menu-hr">
                             <a class="nav-link" href="/statistics" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Statistics (Loged In)'});">Statistics</a>
                         <hr class="menu-hr">
@@ -69,7 +83,7 @@
                             <a class="nav-link" href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
                         <hr class="menu-hr">
                         <hr class="menu-hr">
-                            <a class="nav-link" href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged IN)'});">Log Out</a>
+                            <a class="nav-link" href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged In)'});">Log Out</a>
                         <hr class="menu-hr">
                     {% else %}
                         <hr class="menu-hr">
@@ -95,9 +109,29 @@
 
     
     {% if errormessage %}
-    <h6>{{ errormessage }}</h6>
+    <h6><font color="grey">{{ errormessage }}</font></h6>
     {% endif %}
 
     {% block content %}{% endblock %}
+
+
+
+
+
+
+
+{% if False %}
+    <!-- Track Button Clicks Per Session Function executes before page exit-->
+    <script>
+            window.addEventListener('beforeunload', function() {
+              window.dataLayer.push({{ session['user_engagement']|tojson }});
+            });
+            console.log({{ session['user_engagement']|tojson }})
+          </script>
+
+{% endif %}
+
+
+
 </body>
 </html>

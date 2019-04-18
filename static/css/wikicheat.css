@@ -1,0 +1,49 @@
+/* .circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    background: #cb4b16;
+    border-radius: 80%;
+    backface-visibility: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  #main{
+    height: 10000px;
+    cursor: none;
+    touch-action: none;
+  } */
+
+  #container {
+    cursor: none;
+    touch-action: none;
+  }
+  
+  .section {
+    display: flex;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  
+  
+  .circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    background: #cb4b16;
+    border-radius: 80%;
+    backface-visibility: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+  }
