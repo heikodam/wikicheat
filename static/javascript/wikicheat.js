@@ -1,47 +1,49 @@
-// function allowDrop(ev) {
-//     ev.preventDefault();
-//   }
-  
-//   function drag(ev) {
-//     ev.dataTransfer.setData("text", ev.target.id);
-//   }
-  
-//   function drop(ev) {
-//     alert("Droped in Main")
-//     // ev.preventDefault();
-//     // var data = ev.dataTransfer.getData("text");
-//     // ev.target.appendChild(document.getElementById("main"));
-//   }
+// Some Code from https://codepen.io/Sahil89/pen/RQjyQa
+// Some Code from https://medium.com/quick-code/simple-javascript-drag-drop-d044d8c5bed5
 
 var container = document.getElementById("main");
-var circle = document.querySelector(".circle");
-
-TweenMax.set(".section", {
-  backgroundColor: function() {
-    return Math.random() * 0xffffff;
-  }
-});
-
-TweenMax.set(circle, { scale: 0, xPercent: -50, yPercent: -50 });
-
-container.addEventListener("pointerenter", function(e) {
-  TweenMax.to(circle, 0.3, { scale: 1, opacity: 1 });
-  positionCircle(e);
-});
-
-container.addEventListener("pointerleave", function(e) {
-  TweenMax.to(circle, 0.3, { scale: 0, opacity: 0 });
-  positionCircle(e);
-});
-
-container.addEventListener("pointermove", function(e) {
-  positionCircle(e);
-});
+var circle = document.querySelector(".start-button");
 
 function positionCircle(e) {
-  var rect = container.getBoundingClientRect();  
-  var relX = e.pageX - container.offsetLeft;
-  var relY = e.pageY - container.offsetTop;
+  // var rect = container.getBoundingClientRect();  
+  // var relX = e.pageX - container.offsetLeft;
+  // var relY = e.pageY - container.offsetTop;
+  var relX = e.clientX - container.offsetLeft;
+  var relY = e.clientY - container.offsetTop;
 
-  TweenMax.to(circle, 0.3, { x: relX, y: relY });
+  TweenMax.to(circle, 1, { x: relX, y: relY });
 }
+
+
+function allowDrop(e) {
+    e.preventDefault();
+  }
+  
+  function drag(e) {
+    // positionCircle(e);
+  }
+  
+  function drop(e) {
+    // document.getElementById("myP").style.cursor = "pointer";
+    positionCircle(e);
+    document.getElementById('submit-btn').click();
+  }
+
+
+  window.onload = function(){
+    var start_title = document.getElementById("result-start_link");
+    var end_title = document.getElementById("result-end_link");
+    var arrow = document.getElementById("result-arrow");
+    
+    if ((start_title.innerHTML.length + end_title.innerHTML.length) > 27){
+      // Change css Class
+      // start_title.classList.add("block left");
+      // end_title.classList.add("block right");
+      start_title.className += "block";
+      start_title.style.textAlign = "left";
+      end_title.className += "block";
+      end_title.style.textAlign = "right";
+      arrow.className += "block rotate";
+
+    }
+  }

@@ -5,11 +5,15 @@
 
 /* Header */
 
-/* Some code taken from https://www.youtube.com/watch?v=cQ6YQ8K5MRw */
+/* Some code taken from https://www.youtube.com/watch?v=cQ6YQ8K5MRw for responsive header*/
 
 *{
     margin: 0;
     padding: 0;
+}
+
+body{
+    background-color: var(--main-dark);
 }
 
 .header{
@@ -28,29 +32,12 @@
 .menu{
     text-transform: uppercase;
     text-align: center;
-    /* vertical-align: middle; */
-    /* background-color: green; */
     height: 100%;
     width: 100%;
 
-    /* vertical-align: middle; */
 }
 
-/* .menu a{
-    color: var(--main-orange);
-    text-transform: uppercase;
-    text-decoration: none;
-    background-color: #3498db;
-    vertical-align: middle;
-    line-height: 100%;
-    height: 100%;
-    
-} */
-
 .nav-link{
-    /* padding-top: 50px;
-    margin-top: 100px; */
-    /* padding: 82px 10px; */
     line-height: 100px;
     padding: 41px 20px;
     color: var(--main-orange);
@@ -183,13 +170,6 @@
         position: absolute;
         top: 40px;
         right: 40px;
-        /* z-index: 25; */
-        /* position: fixed;
-        width: 35%;
-        height: 100%;
-        left: 0;
-        z-index: 100;
-        background-color: green; */
     }
 
 

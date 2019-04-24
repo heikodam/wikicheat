@@ -3,30 +3,65 @@
 
 {% block header%}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/wikicheat.css') }}">
-<script src="{{ url_for('static', filename='javascript/wikicheat.js') }}"></script>
+
 {% endblock %}
 
 
 {% block content %}
-<div id="main" ondrop="drop(event)" ondragover="allowDrop(event)">
-<h1>Start Caluclating Your Wiki Pages Distance</h1>
-<form action="/wikicheat" method="POST">
-    <input type="text" name="start_link" id="start_link" placeholder="Start Title" required>
-    <input type="text" name="end_link" id="end_link" placeholder="End Title" required>
-    <input type="submit" id="start-link" Value="Start Calculate" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'WikiCheat (Logged In)'});">
-</form>
-
-
-<img src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
-<div id="container" class="section">
-    <div class="circle"></div>
+<div id="main"  ondrop="drop(event)" ondragover="allowDrop(event)">
+  <div id="header-div">
+    <h1 id="title">Wiki Game:</h1>
+    <a href="/about">How to Play?</a>
+    <h2 id="sub-title">Find the shortest Path from</h2>
+    <form action="/wikicheat" method="POST" id="wikicheat-form">
+        <input type="text" name="start_link" id="start_link" class="info" placeholder="Wikipedia Page Title" required>
+        <span id="header-arrow" class="header-connection">&#x2192;</span>
+        <span id="header-to" class="header-connection">to</span>
+        <input type="text" name="end_link" id="end_link" class="info" placeholder="Wikipedia Page Title" required>
+        <input type="submit" id="submit-btn" Value="Start Calculate" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'WikiCheat (Logged In)'});">
+    </form>
+    <h6 id="button-instructions">*to start drag the wiki icon to any spot on the page</h6>
+</div>
+<div id="icon">
+  <img src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
 </div>
 
-{% if results%}
 
-    <h1>Here are some results</h1>
-{% endif %}
+  {% if result%}
+
+  <div id="result">
+    <div id="result-header">
+      <span id="result-start_link">{{result["start_link"] | replace("_", " ") | capitalize}}</span>
+      <span id="result-arrow">&#x2192;</span>
+      <span id="result-end_link">{{result["end_link"] | replace("_", " ") | capitalize}}</span>
+    </div>
+    <div id="div-result-data">
+      <div class="dd-result-data">
+        <span class="tag">Distance:</span> <span class="result-data">{{result["path_length"]}} clicks</span>
+      </div>
+      <div class="dd-result-data">
+        <span class="tag">Run-time:</span> <span class="result-data">{{result["runtime"]}} s </span>
+      </div>
+    </div>
+    <div id="div-statistics-tag">
+      <a id="statistics-tag" href="/statistics">View all Statistics</a>
+    </div>
+  </div>    
+
+  {% endif %}
+
+
+
+
+
+
+
 
 </div>
 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+<script src="{{ url_for('static', filename='javascript/wikicheat.js') }}"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 #external imports
 from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
 import os
 import psycopg2
 import time
@@ -15,7 +15,7 @@ from web_scraper import checkIfExsits
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 
 @app.route("/")
@@ -26,7 +26,7 @@ def home():
         return redirect("/login")
     
 
-@app.route("/register", methods=('GET', 'POST'))
+@app.route("/register",  methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
         entered_name = request.form['full_name']
@@ -123,8 +123,8 @@ def logout():
 @app.route('/wikicheat', methods=('GET', 'POST'))
 def wikiCheat():
     if request.method == 'POST':
-        start_link = request.form['start_link']
-        end_link = request.form['end_link']
+        start_link = request.form['start_link'].replace(" ", "_")
+        end_link = request.form['end_link'].replace(" ", "_")
 
         if not start_link or not end_link:
             return render_template("wikicheat.html", errormessage = "Please enter 2 Valid Values")
@@ -156,18 +156,12 @@ def wikiCheat():
         #check all records
         cursor.execute("SELECT r.type_of_record, h.degrees_away ,h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;")
         records = cursor.fetchall()
-        print(records)
-        print("Runtime: {}".format(runtime))
         for record in records:
-            print(record[2])
             if record[0] == 'longest_runtime' and runtime > record[2]:
-                print("Updating Now")
                 cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_runtime"))
             if record[0] == 'shortest_runtime' and runtime < record[2]:
-                print("Updating Now")
                 cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "shortest_runtime"))
             if record[0] == 'longest_path' and path_length > record[1]:
-                print("Updating Now")
                 cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
             #Update most recent history
             cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
@@ -175,15 +169,13 @@ def wikiCheat():
         cursor.close()
 
         dataLayer = {"event": "wikicheat", "user_id": user_id}
-        print(session['user_engagement']['games_played'])
         session['user_engagement']['games_played'] += 1
         session.modified = True
-        print(session['user_engagement']['games_played'])
-        return render_template("wikicheat.html", errormessage = "They are {} clicks away".format(path_length), dataLayer=dataLayer)
+        result = {"start_link": start_link, "end_link": end_link, "path_length": path_length, "runtime": runtime}
+        return render_template("wikicheat.html", result = result, dataLayer=dataLayer)
 
     else: 
         if 'user_id' in session:
-            print("Right Here")
             dataLayer = None
             if 'dataLayer' in session:
                 dataLayer = session.pop('dataLayer')
@@ -214,14 +206,11 @@ def settings():
                                 WHERE user_id = {};  
                                 """.format(user_id))
         user = cursor.fetchall()
-        # print(user)
         personal_data = {}
         personal_data["full_name"] = user[0][0]
         personal_data["email"] = user[0][1]
         personal_data["old_hash"] = user[0][2]
         personal_data["gender"] = user[0][3]
-        print(entered_data['gender'])
-        print(personal_data)
 
 
         if personal_data['full_name'] != entered_data['full_name']:
@@ -239,11 +228,6 @@ def settings():
             else:
                 new_hash = generate_password_hash(entered_data['new_password'])
                 cursor.execute("UPDATE users SET hash = '{}' WHERE user_id = {};".format(new_hash, user_id))
-
-
-
-        # print(personal_data)
-        # print(entered_data)
 
         return redirect("/")
 
@@ -287,10 +271,49 @@ def statistics():
                             ON h.start_link = s.wiki_id
 							INNER JOIN wikiPages e
                             ON h.end_link = e.wiki_id;""")
-        records = cursor.fetchall()
-        print(records)
+        db_records = cursor.fetchall()
+        users_records = []
+        for record in records:
+            users_records.append(
+                {
+                    "record": record[0],
+                    "username": record[1],
+                    "runtime": record[2],
+                    "start_page": record[3],
+                    "end_page": record[4],
+                    "distance": record[5]
+                }
+            )
 
-        return render_template("statistics.html", records = records)
+
+        cursor.execute("""
+        SELECT w.title, COUNT(*) 
+        FROM history h
+        INNER JOIN wikipages AS w
+        ON start_link = w.wiki_id
+        GROUP BY w.title
+        ORDER BY COUNT(*) desc
+        FETCH FIRST 1 ROW ONLY;
+        """)
+        db_start_page = cursor.fetchall()
+
+        cursor.execute("""
+        SELECT w.title, COUNT(*) 
+        FROM history h
+        INNER JOIN wikipages AS w
+        ON end_link = w.wiki_id
+        GROUP BY w.title
+        ORDER BY COUNT(*) desc
+        FETCH FIRST 1 ROW ONLY;
+        """)
+        db_end_page =cursor.fetchall()
+
+        page_records = {
+            "start_link_record": {"link": db_start_page[0][0], "amount": db_start_page[0][1]},
+            "end_link_record": {"link": db_end_page[0][0], "amount": db_end_page[0][1]}
+        }
+
+        return render_template("statistics.html", users_records = users_records, page_records = page_records)
     else:
         return redirect("/")
 

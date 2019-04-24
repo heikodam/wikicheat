@@ -10,7 +10,7 @@ def get_db():
         port = 5432
     )
     connection.autocommit=True
-
+ 
     cursor = connection.cursor()
     return cursor
 
