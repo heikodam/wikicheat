@@ -87,108 +87,24 @@ a{
 }
 
 #result{
-  /* width: auto; */
-  width: 80%;
-  max-width: 700px;
-  background-color: white;
-  border: solid var(--main-orange) 2px;
-  border-radius: 20px;
   margin: 300px auto;
 }
 
-#result-header{
-  padding: 0px 0;
-  text-align: center;
-}
-
-#result-start_link, #result-end_link{
-  font-size: 40px;
-  padding: 30px 10%;
-  text-align: center;
-}
-
-#result-start_link{
-  padding: 30px 10% 0 10%;
-}
-#result-end_link{
-  padding: 0 10% 10px 10%;
-  word-wrap: normal;
-}
-
-#result-arrow{
-  padding-top: 0;
-  color: var(--main-orange);
-  font-size: 80px;
-  font-weight: 900;
-  margin-top: -10px;
-}
-
-#div-result-data{
-  background-color: var(--main-dark);
-  border: solid var(--main-orange) 1px;
-  border-radius: 20px;
-  font-size: 30px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
-.dd-result-data{
-  text-align: center;
-}
-
-.result-data{
-  color: var(--main-orange);
-}
-
-.tag{
-  color: var(--my-grey);
-  padding-right: 50px;
-}
-
-#statistics-tag{
-  color: var(--main-dark);
-  padding-bottom: 20px;
-}
-
-#div-statistics-tag{
-  padding-right: 40px;
-  padding-bottom: 10px;
-  text-align: right;
-}
-
-.block{
-  display: block;
-}
-
-.left{
-  text-align: left;
-}
-
-.right{
-  text-align: right;
-}
-
-.rotate{
-  transform: rotate(40deg);
-}
-
-
 @media screen and (max-width: 1200px){
-  #header-arrow{
-    font-size: 80px;
-  }
   #wikicheat-form{
     margin-top: 70px;
+  }
+  #header-arrow{
+    font-size: 80px;
   }
 }
 
 @media screen and (max-width: 910px){
-  .info, #result-start_link, #result-arrow, #result-end_link {
+  .info {
     display: block;
-  }
-  .info{
     width: 80%;
   }
+  
   #header-arrow{
     display: none;
   }
@@ -196,17 +112,5 @@ a{
     display: block;
     font-size: 80px;
   }
-  #wikicheat-form{
-    margin-top: 80px;
-  }
-
-  #result-start_link{
-    text-align: left;
-  }
-  #result-end_link{
-    text-align: right;
-  }
-  #result-arrow{
-    transform: rotate(40deg);
-  }
+  
 }

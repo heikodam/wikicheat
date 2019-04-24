@@ -2,19 +2,111 @@
 {% block title %}Statistics{% endblock %}
 
 {% block header%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
+
 {% endblock %}
 
 {% block content %}
 
 <div class="grid-container">
 {% if page_records %}
-    <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+<!-- Most Popular START Page -->
+    <div class="div-trophy" id="div-mp-start-page">
+        <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy" id="trophy-start-page">
+        <div class="div-page-title" id="mp-start-page">Most Popular START page</div>
+        <div class="link-title" id="record-mp-start-page">{{page_records["start_link_record"]["title"] | replace("_", " ") | capitalize}}</div>
+    </div>
 
-    <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+<!-- Most Popular END Page -->
+    <div class="div-trophy" id="div-mp-end-page">
+            <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+            <div class="div-page-title">Most Popular END page</div>
+            <div class="link-title" id="record-mp-end-page">{{page_records["end_link_record"]["title"] | replace("_", " ") | capitalize}}</div>
+    </div>
 {% endif %}
 
 {% if users_records %}
+
+<!-- Longest Path -->
+<div class="div-trophy" id="div-longest-path">
+        <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+
+        <div class="div-page-title">Longest Path</div>
+        <div id="result">
+                <div id="result-header">
+                  <span id="result-start_link">{{users_records[0]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span id="result-arrow">&#x2192;</span>
+                  <span id="result-end_link">{{users_records[0]["end_page"] | replace("_", " ") | capitalize}}</span>
+                </div>
+                <div id="div-result-data">
+                  <div class="dd-result-data">
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[0]["distance"]}} clicks</span>
+                  </div>
+                  <div class="dd-result-data">
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[0]["runtime"]}} s </span>
+                  </div>
+                </div>
+                <div id="div-statistics-tag">
+                  <a id="statistics-tag" href="/statistics">View all Statistics</a>
+                </div>
+              </div>
+    </div>
+
+
+
+<!-- Shortest Runtime -->
+<div class="div-trophy" id="div-shortest-runtime">
+        <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+
+        <div class="div-page-title">Shortest Runtime</div>
+        <div id="result">
+                <div id="result-header">
+                  <span id="result-start_link">{{users_records[1]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span id="result-arrow">&#x2192;</span>
+                  <span id="result-end_link">{{users_records[1]["end_page"] | replace("_", " ") | capitalize}}</span>
+                </div>
+                <div id="div-result-data">
+                  <div class="dd-result-data">
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[1]["distance"]}} clicks</span>
+                  </div>
+                  <div class="dd-result-data">
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[1]["runtime"]}} s </span>
+                  </div>
+                </div>
+                <div id="div-statistics-tag">
+                  <a id="statistics-tag" href="/statistics">View all Statistics</a>
+                </div>
+              </div>
+    </div>
+
+
+<!-- Longest Runtime -->
+<div class="div-trophy" id="div-longest-runtime">
+        <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+
+        <div class="div-page-title">Longest Runtime</div>
+        <div id="result">
+                <div id="result-header">
+                  <span id="result-start_link">{{users_records[2]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span id="result-arrow">&#x2192;</span>
+                  <span id="result-end_link">{{users_records[2]["end_page"] | replace("_", " ") | capitalize}}</span>
+                </div>
+                <div id="div-result-data">
+                  <div class="dd-result-data">
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[2]["distance"]}} clicks</span>
+                  </div>
+                  <div class="dd-result-data">
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[2]["runtime"]}} s </span>
+                  </div>
+                </div>
+                <div id="div-statistics-tag">
+                  <a id="statistics-tag" href="/statistics">View all Statistics</a>
+                </div>
+              </div>
+    </div>
 
 {% endif %}
 

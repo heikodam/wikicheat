@@ -1,6 +1,86 @@
 :root{
     --main-orange: #FF6519;
     --main-dark: #12121E;
-    --trophy-url: url("");
 }
 
+.div-page-title{
+    color: var(--main-orange);
+    position: absolute;
+    background-color: var(--main-dark);
+    padding: 10px;
+    border: solid var(--main-orange) 1px;
+    width: 60%;
+    z-index: 500;
+}
+
+.div-trophy{
+    position: relative;
+    /* display: inline-block; */
+    /* background-color: green; */
+}
+
+.trophy{
+    width: 100%;
+    max-width: 300px;
+}
+
+.link-title{
+    position: relative;
+    background: white;
+    padding: 20px;
+    border: solid var(--main-orange) 2px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 35px;
+    text-align: center;
+    bottom: 20px;
+    z-index: -10;
+}
+
+/* Most Popular Start Page Custom */
+
+#mp-start-page{
+    margin: 0 auto;
+    right: 70px;
+    margin-top: -250px;
+}
+
+#div-mp-start-page{
+    text-align: right;
+}
+
+#trophy-start-page{
+    /* float: left; */
+}
+
+#record-mp-start-page{
+    margin-right: 50px;
+}
+
+/* End Most Popular Start Page Custom */
+
+/* Most Popular End Page Custom */
+#record-mp-end-page{
+    margin-left: 50px;
+}
+
+
+/* Start of Grid */
+
+/* Define Names */
+#div-mp-start-page{grid-area: start-page;}
+#div-mp-end-page{grid-area: end-page}
+#div-longest-path{grid-area: longest-path}
+#div-shortest-runtime{grid-area: shortest-runtime}
+#div-longest-runtime{grid-area: longest-runtime}
+
+.grid-container{
+    margin: 30px 50px;
+    display: grid;
+    grid-row-gap: 50px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: 
+        "start-page start-page . end-page end-page"
+        ". longest-path longest-path longest-path ."
+        "shortest-runtime shortest-runtime . longest-runtime longest-runtime"
+}

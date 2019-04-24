@@ -273,7 +273,8 @@ def statistics():
                             ON h.end_link = e.wiki_id;""")
         db_records = cursor.fetchall()
         users_records = []
-        for record in records:
+        for record in db_records:
+            print(record)
             users_records.append(
                 {
                     "record": record[0],
@@ -309,10 +310,12 @@ def statistics():
         db_end_page =cursor.fetchall()
 
         page_records = {
-            "start_link_record": {"link": db_start_page[0][0], "amount": db_start_page[0][1]},
-            "end_link_record": {"link": db_end_page[0][0], "amount": db_end_page[0][1]}
+            "start_link_record": {"title": db_start_page[0][0], "amount": db_start_page[0][1]},
+            "end_link_record": {"title": db_end_page[0][0], "amount": db_end_page[0][1]}
         }
 
+
+        print(users_records)
         return render_template("statistics.html", users_records = users_records, page_records = page_records)
     else:
         return redirect("/")
