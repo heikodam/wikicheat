@@ -5,12 +5,19 @@
 
 .div-page-title{
     color: var(--main-orange);
+    /* color: white; */
     position: absolute;
     background-color: var(--main-dark);
     padding: 10px;
     border: solid var(--main-orange) 1px;
     width: 60%;
     z-index: 500;
+    word-wrap: normal;
+    /* border-radius: 20px; */
+}
+
+.result-header span{
+    font-weight: 500;
 }
 
 .div-trophy{
@@ -21,7 +28,7 @@
 
 .trophy{
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
 }
 
 .link-title{
@@ -39,10 +46,14 @@
 
 /* Most Popular Start Page Custom */
 
-#mp-start-page{
+#mp-start-page, #longest-runtime{
     margin: 0 auto;
-    right: 70px;
-    margin-top: -250px;
+    right: 65px;
+    width: 128px;
+    margin-top: -240px;
+    position: absolute;
+    text-align: center;
+    font-size: 20px;
 }
 
 #div-mp-start-page{
@@ -64,30 +75,46 @@
     margin-left: 50px;
 }
 
-#mp-end-page{
-    margin: -250px auto 0 auto;
+#mp-end-page, #shortest-runtime{
+    margin: -240px auto 0 auto;
+    left: 65px;
+    width: 128px;
+    text-align: center;
+    font-size: 20px;
 }
 /* End Most Popular END Page Custom */
 
 /* Longest Path Custom */
-#div-longest-path{
+#div-longest-path, #div-most-recent{
     text-align: center;
 }
 
 #longest-path{
-    margin: -250px auto 0 auto;
+    margin-top: -240px;
+    width: 138px;
+    text-align: center;
+    font-size: 20px;
+    margin-left: 100px;
+    position: absolute;
+    /* left: 50%; */
+    left: calc(50% - 180px);
 }
 
-#div-result-longest-path{
+#div-result-longest-path, #div-result-most-recent, #div-result-longest-runtime, #div-result-shortest-runtime{
     width: 100%;
     margin: auto;
 }
+
+/* #div-result-most-recent{
+    width: 100%;
+    margin: auto;
+} */
 /* End Longest Path Custom */
 
 /* Shortest runtime Custom */
 #div-result-shortest-runtime{
     /* margin-left: ; */
-    float: right;
+    /* float: right; */
 }
 
 #div-shortest-runtime{
@@ -118,10 +145,18 @@
     /* background-color: red; */
 }
 
-#div-resulte-most-recent{
+/* #div-result-most-recent{
     width:100%;
-    max-width: 100%;
+    /* max-width: 100%; */
     /* background-color: pink; */
+} */
+
+#title-most-recent{
+    margin: 0;
+}
+
+#most-recent{
+    color: var(--main-orange);
 }
 
 /* Start of Grid */
@@ -137,7 +172,7 @@
 .grid-container{
     margin: 30px 50px;
     display: grid;
-    grid-row-gap: 50px;
+    grid-row-gap: 100px;
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas: 
         "start-page start-page . end-page end-page"
@@ -149,10 +184,10 @@
 @media screen and (max-width: 1100px){
     .grid-container{
         grid-template-areas: 
-            "start-page start-page . end-page end-page"
-            ". longest-path longest-path longest-path ."
-            ". shortest-runtime shortest-runtime shortest-runtime ."
-            ". longest-runtime longest-runtime longest-runtime ."
+        "start-page start-page . end-page end-page"
+        ". longest-path longest-path longest-path ."
+        ". shortest-runtime shortest-runtime shortest-runtime ."
+        ". longest-runtime longest-runtime longest-runtime ."
             ". most-recent most-recent most-recent .";
     }
 }

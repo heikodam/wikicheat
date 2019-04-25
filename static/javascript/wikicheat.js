@@ -31,19 +31,19 @@ function allowDrop(e) {
 
 
   window.onload = function(){
-    var start_title = document.getElementById("result-start_link");
-    var end_title = document.getElementById("result-end_link");
-    var arrow = document.getElementById("result-arrow");
+    var start_title = document.getElementById("id-result-start_link");
+    var end_title = document.getElementById("id-result-end_link");
+    var arrow = document.getElementById("id-result-arrow");
     
-    if ((start_title.innerHTML.length + end_title.innerHTML.length) > 27){
+    if ((start_title.innerHTML.length + end_title.innerHTML.length) > 23){
       // Change css Class
       // start_title.classList.add("block left");
       // end_title.classList.add("block right");
-      start_title.className += "block";
-      start_title.style.textAlign = "left";
-      end_title.className += "block";
-      end_title.style.textAlign = "right";
-      arrow.className += "block rotate";
+      start_title.className += " block";
+      start_title.style.textAlign = " left";
+      end_title.className += " block";
+      end_title.style.textAlign = " right";
+      arrow.className += " block rotate";
 
     }
   }

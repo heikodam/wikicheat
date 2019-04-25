@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/statistics.css') }}">
 
+
 {% endblock %}
 
 {% block content %}
@@ -34,21 +35,21 @@
 
         <div class="div-page-title" id="longest-path">Longest Path</div>
         <div class="div-result" id="div-result-longest-path">
-                <div id="result-header">
-                  <span id="result-start_link">{{users_records[0]["start_page"] | replace("_", " ") | capitalize}}</span>
-                  <span id="result-arrow">&#x2192;</span>
-                  <span id="result-end_link">{{users_records[0]["end_page"] | replace("_", " ") | capitalize}}</span>
+                <div class="result-header">
+                  <span class="result-start_link  block left">{{users_records["longest_path"]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span class="result-arrow  block rotate">&#x2192;</span>
+                  <span class="result-end_link  block right">{{users_records["longest_path"]["end_page"] | replace("_", " ") | capitalize}}</span>
                 </div>
-                <div id="div-result-data">
+                <div class="div-result-data">
                   <div class="dd-result-data">
-                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[0]["distance"]}} clicks</span>
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records["longest_path"]["distance"]}} clicks</span>
                   </div>
                   <div class="dd-result-data">
-                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[0]["runtime"]}} s </span>
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records["longest_path"]["runtime"]}} s </span>
                   </div>
                 </div>
                 <div id="div-statistics-tag">
-                  <a id="statistics-tag" href="/statistics">by {{users_records[0]["username"]}}</a>
+                  <a id="statistics-tag" href="/statistics">by {{users_records["longest_path"]["username"]}}</a>
                 </div>
               </div>
     </div>
@@ -56,77 +57,78 @@
 
 
 <!-- Longest Runtime -->
-<div class="div-trophy" id="div-shortest-runtime">
+<div class="div-trophy" id="div-longest-runtime">
         <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 
-        <div class="div-page-title" id="shortest-runtime">Longest Runtime</div>
-        <div class="div-result div-result-runtime" id="div-result-shortest-runtime">
-                <div id="result-header">
-                  <span id="result-start_link">{{users_records[1]["start_page"] | replace("_", " ") | capitalize}}</span>
-                  <span id="result-arrow">&#x2192;</span>
-                  <span id="result-end_link">{{users_records[1]["end_page"] | replace("_", " ") | capitalize}}</span>
+        <div class="div-page-title" id="longest-runtime">Longest Runtime</div>
+        <div class="div-result div-result-runtime" id="div-result-longest-runtime">
+                <div class="result-header">
+                  <span class="result-start_link block left">{{users_records["longest_runtime"]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span class="result-arrow block rotate">&#x2192;</span>
+                  <span class="result-end_link block right">{{users_records["longest_runtime"]["end_page"] | replace("_", " ") | capitalize}}</span>
                 </div>
-                <div id="div-result-data">
+                <div class="div-result-data">
                   <div class="dd-result-data">
-                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[1]["distance"]}} clicks</span>
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records["longest_runtime"]["distance"]}} clicks</span>
                   </div>
                   <div class="dd-result-data">
-                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[1]["runtime"]}} s </span>
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records["longest_runtime"]["runtime"]}} s </span>
                   </div>
                 </div>
                 <div id="div-statistics-tag">
-                  <a id="statistics-tag" href="/statistics">by {{users_records[1]["username"]}}</a>
+                  <a id="statistics-tag" href="/statistics">by {{users_records["longest_runtime"]["username"]}}</a>
                 </div>
               </div>
     </div>
 
 
 <!-- Shortest Runtime -->
-<div class="div-trophy" id="div-longest-runtime">
+<div class="div-trophy" id="div-shortest-runtime">
         <img src="{{ url_for('static', filename='pictures/trophy.png') }}" alt="trophy img" class="trophy">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 
-        <div class="div-page-title" id="longest-runtime">Shortest Runtime</div>
-        <div class="div-result div-result-runtime" id="div-resulte-longest-runtime">
-                <div id="result-header">
-                  <span id="result-start_link">{{users_records[3]["start_page"] | replace("_", " ") | capitalize}}</span>
-                  <span id="result-arrow">&#x2192;</span>
-                  <span id="result-end_link">{{users_records[3]["end_page"] | replace("_", " ") | capitalize}}</span>
+        <div class="div-page-title" id="shortest-runtime">Shortest Runtime</div>
+        <div class="div-result div-result-runtime" id="div-result-shortest-runtime">
+                <div class="result-header">
+                  <span class="result-start_link block left">{{users_records["shortest_runtime"]["start_page"] | replace("_", " ") | capitalize}}</span>
+                  <span class="result-arrow block rotate">&#x2192;</span>
+                  <span class="result-end_link block right">{{users_records["shortest_runtime"]["end_page"] | replace("_", " ") | capitalize}}</span>
                 </div>
-                <div id="div-result-data">
+                <div class="div-result-data">
                   <div class="dd-result-data">
-                    <span class="tag">Distance:</span> <span class="result-data">{{users_records[3]["distance"]}} clicks</span>
+                    <span class="tag">Distance:</span> <span class="result-data">{{users_records["shortest_runtime"]["distance"]}} clicks</span>
                   </div>
                   <div class="dd-result-data">
-                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records[3]["runtime"]}} s </span>
+                    <span class="tag">Run-time:</span> <span class="result-data">{{users_records["shortest_runtime"]["runtime"]}} s </span>
                   </div>
                 </div>
                 <div id="div-statistics-tag">
-                  <a id="statistics-tag" href="/statistics">by {{users_records[3]["username"]}}</a>
+                  <a id="statistics-tag" href="/statistics">by {{users_records["shortest_runtime"]["username"]}}</a>
                 </div>
               </div>
     </div>
 
     <!-- Most Recent -->
     <div class="div-trophy" id="div-most-recent">
-        <div class="div-result" id="div-resulte-most-recent">
-            <div id="result-header">
-                    <div class="div-page-title" id="most-recent">Most Recent</div>
-                      <span id="result-start_link">{{users_records[2]["start_page"] | replace("_", " ") | capitalize}}</span>
-                      <span id="result-arrow">&#x2192;</span>
-                      <span id="result-end_link">{{users_records[2]["end_page"] | replace("_", " ") | capitalize}}</span>
+        <div class="div-result" id="div-result-most-recent">
+
+            <div class="result-header">
+                    <div class="div-result-data" id="title-most-recent">  
+                      <span id="most-recent">Most Recent</span>
                     </div>
-                    <div id="div-result-data">
+                      <span class="result-start_link" id="id-mr-start_link">{{users_records["most_recent"]["start_page"] | replace("_", " ") | capitalize}}</span>
+                      <span class="result-arrow" id="id-mr-arrow">&#x2192;</span>
+                      <span class="result-end_link" id="id-mr-end_link">{{users_records["most_recent"]["end_page"] | replace("_", " ") | capitalize}}</span>
+                    </div>
+                    <div class="div-result-data">
                       <div class="dd-result-data">
-                        <span class="tag">Distance:</span> <span class="result-data">{{users_records[2]["distance"]}} clicks</span>
+                        <span class="tag">Distance:</span> <span class="result-data">{{users_records["most_recent"]["distance"]}} clicks</span>
                       </div>
                       <div class="dd-result-data">
-                        <span class="tag">Run-time:</span> <span class="result-data">{{users_records[2]["runtime"]}} s </span>
+                        <span class="tag">Run-time:</span> <span class="result-data">{{users_records["most_recent"]["runtime"]}} s </span>
                       </div>
                     </div>
                     <div id="div-statistics-tag">
-                      <a id="statistics-tag" href="/statistics">by {{users_records[2]["username"]}}</a>
+                      <a id="statistics-tag" href="/statistics">by {{users_records["most_recent"]["username"]}}</a>
                     </div>
                   </div>
         </div>
@@ -134,5 +136,6 @@
 {% endif %}
 
 </div>
+<script src="{{ url_for('static', filename='javascript/statistics.js') }}"></script>
 
 {% endblock %}

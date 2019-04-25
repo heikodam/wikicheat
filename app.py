@@ -272,40 +272,38 @@ def statistics():
 							INNER JOIN wikiPages e
                             ON h.end_link = e.wiki_id;""")
         db_records = cursor.fetchall()
-        users_records = []
+        users_records = {}
         for record in db_records:
             print(record)
-            users_records.append(
-                {
-                    "record": record[0],
-                    "username": record[1],
-                    "runtime": record[2],
-                    "start_page": record[3],
-                    "end_page": record[4],
-                    "distance": record[5]
-                }
-            )
+            users_records[record[0]] = {
+                        "username": record[1],
+                        "runtime": record[2],
+                        "start_page": record[3],
+                        "end_page": record[4],
+                        "distance": record[5]
+                    } 
+            
 
 
         cursor.execute("""
         SELECT w.title, COUNT(*) 
         FROM history h
-        INNER JOIN wikipages AS w
+        INNER JOIN wikipages w
         ON start_link = w.wiki_id
         GROUP BY w.title
-        ORDER BY COUNT(*) desc
-        FETCH FIRST 1 ROW ONLY;
+        ORDER BY COUNT(*) DESC
+        LIMIT 1;
         """)
         db_start_page = cursor.fetchall()
 
         cursor.execute("""
         SELECT w.title, COUNT(*) 
         FROM history h
-        INNER JOIN wikipages AS w
+        INNER JOIN wikipages w
         ON end_link = w.wiki_id
         GROUP BY w.title
-        ORDER BY COUNT(*) desc
-        FETCH FIRST 1 ROW ONLY;
+        ORDER BY COUNT(*) DESC
+        LIMIT 1;
         """)
         db_end_page =cursor.fetchall()
 
