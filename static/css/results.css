@@ -4,7 +4,7 @@
     --my-grey: #AFAFAF;
   }
 
-#result{
+.div-result{
     /* width: auto; */
     width: 80%;
     max-width: 700px;
@@ -90,16 +90,9 @@
   }
   
   
-  @media screen and (max-width: 1200px){
-    
-  }
-  
   @media screen and (max-width: 910px){
     #result-start_link, #result-arrow, #result-end_link {
       display: block;
-    }
-    .info{
-      width: 80%;
     }
 
     #result-start_link{

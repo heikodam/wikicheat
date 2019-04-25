@@ -64,6 +64,65 @@
     margin-left: 50px;
 }
 
+#mp-end-page{
+    margin: -250px auto 0 auto;
+}
+/* End Most Popular END Page Custom */
+
+/* Longest Path Custom */
+#div-longest-path{
+    text-align: center;
+}
+
+#longest-path{
+    margin: -250px auto 0 auto;
+}
+
+#div-result-longest-path{
+    width: 100%;
+    margin: auto;
+}
+/* End Longest Path Custom */
+
+/* Shortest runtime Custom */
+#div-result-shortest-runtime{
+    /* margin-left: ; */
+    float: right;
+}
+
+#div-shortest-runtime{
+    text-align: left;
+}
+/* End Shortest Runtime */
+
+/* Longest runtime Custom */
+#div-longest-runtime{
+    text-align: right;
+}
+/* End Longest Runtime */
+
+.div-result-runtime{
+    position: relative;
+    bottom: 20px;
+    z-index: -5;
+}
+
+
+#most-recent{
+    position: static;
+    width: 100%;
+    border-radius: 20px;
+}
+
+#div-most-recent{
+    /* background-color: red; */
+}
+
+#div-resulte-most-recent{
+    width:100%;
+    max-width: 100%;
+    /* background-color: pink; */
+}
 
 /* Start of Grid */
 
@@ -73,6 +132,7 @@
 #div-longest-path{grid-area: longest-path}
 #div-shortest-runtime{grid-area: shortest-runtime}
 #div-longest-runtime{grid-area: longest-runtime}
+#div-most-recent{grid-area: most-recent}
 
 .grid-container{
     margin: 30px 50px;
@@ -83,4 +143,31 @@
         "start-page start-page . end-page end-page"
         ". longest-path longest-path longest-path ."
         "shortest-runtime shortest-runtime . longest-runtime longest-runtime"
+        ". most-recent most-recent most-recent .";
+}
+
+@media screen and (max-width: 1100px){
+    .grid-container{
+        grid-template-areas: 
+            "start-page start-page . end-page end-page"
+            ". longest-path longest-path longest-path ."
+            ". shortest-runtime shortest-runtime shortest-runtime ."
+            ". longest-runtime longest-runtime longest-runtime ."
+            ". most-recent most-recent most-recent .";
+    }
+}
+
+@media screen and (max-width: 800px){
+    .grid-container{
+        grid-template-columns: 1fr;
+        grid-row-gap: 100px;
+
+        grid-template-areas: 
+            "start-page"
+            "end-page"
+            "longest-path"
+            "shortest-runtime"
+            "longest-runtime"
+            "most-recent";
+    }
 }
