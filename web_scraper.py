@@ -29,7 +29,7 @@ def getAllUrl(title):
             #remove all hashes and on page links
             if link.find('#') != -1:
                 link = link[:link.find('#')]
-            linklist.add(link[2:])
+            linklist.add(link[2:].lower())
     return linklist
 
 # ll = getAllUrl("Flour")
@@ -60,7 +60,7 @@ def getAllBackLinks(title):
     for page in DATA["query"]["backlinks"]:
         backlinks.append(page["title"])
     
-    return backlinks
+    return set([link.replace(" ", "_").lower() for link in backlinks])
 
 
 
