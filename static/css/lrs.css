@@ -1,3 +1,6 @@
+/* lrs = login, registration, settings */
+/* I used the same css form for all 3 pages, because they look so similar and I would have to write a lot of duplicate code otherwise */
+
 :root{
     --main-orange: #FF6519;
     --main-dark: #12121E;
@@ -131,8 +134,6 @@ input[type='checkbox'] {
     .btn{
         width: 100%;
         max-width: 100%;
-        background-color: var(--main-orange);
-        color: var(--main-dark);
     }
 }
 

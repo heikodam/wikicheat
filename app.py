@@ -9,8 +9,9 @@ import time
 
 #my imports
 from connect_db_test import get_db
-from live_finder import *
+# from live_finder import *
 from web_scraper import checkIfExsits
+from fast import degree_distance
 
 
 app = Flask(__name__)
