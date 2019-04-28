@@ -3,8 +3,8 @@ import psycopg2
 
 def get_db():
     connection = psycopg2.connect(
-        host = "localhost",
-        database = "wikiCheat",
+        host = "35.242.229.99",
+        database = "postgres",
         user = "postgres",
         password = "HDamaske",
         port = 5432

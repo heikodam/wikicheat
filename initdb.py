@@ -1,3 +1,26 @@
+import psycopg2
+
+
+def get_db():
+    connection = psycopg2.connect(
+        host = "35.242.229.99",
+        database = "postgres",
+        user = "postgres",
+        password = "HDamaske",
+        port = 5432
+    )
+    connection.autocommit=True
+ 
+    cursor = connection.cursor()
+    return cursor
+
+cursor = get_db()
+# cursor.execute("SELECT * FROM history")
+# row = cursor.fetchall()
+# print(row)
+
+
+cursor.execute("""
 DROP TABLE IF EXISTS records;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS wikiPages;
@@ -48,9 +71,11 @@ CREATE TABLE records (
 	history_id INTEGER REFERENCES history(history_id)
 );
 
+INSERT INTO users (full_name, email, hash, gender) VALUES ('Heiko Damaske', 'heiko.damaske@gmail.com', '1234', (SELECT gender_id FROM gender WHERE gender = 'male'));
+
 INSERT INTO wikipages (title) VALUES ('Switzerland');
 INSERT INTO wikipages (title) VALUES ('Bern');
-INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (11, 1, 1, 2, '00:02:21');
+INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (1, 1, 1, 1, 0.9);
 
 INSERT INTO records (type_of_record, history_id) VALUES ('longest_runtime', 1);
 INSERT INTO records (type_of_record, history_id) VALUES ('shortest_runtime', 1);
@@ -58,28 +83,4 @@ INSERT INTO records (type_of_record, history_id) VALUES ('longest_path', 1);
 INSERT INTO records (type_of_record, history_id) VALUES ('most_recent', 1);
 
 
-
--- Insert some test data
--- INSERT INTO wikipages (title) VALUES ('Test');
--- INSERT INTO wikipages (title) VALUES ('Second_Test');
--- INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (11, 1, 1, 2, '00:02:21');
--- SELECT * FROM history;
-
-
-
--- INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (11, 1, 1, 2, '00:02:21');
-
-
---INSERT INTO users (full_name, email, hash, gender) VALUES ('Heiko Damaske', 'heiko.damaske@gmail.com', '1234', (SELECT gender_id FROM gender WHERE gender = 'male'))
-
--- SELECT r.type_of_record, h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;
-
-
--- Select the most 
--- SELECT w.title, COUNT(*) 
--- FROM history h
--- INNER JOIN wikipages AS w
--- ON start_link = w.wiki_id
--- GROUP BY w.title
--- ORDER BY COUNT(*) desc
--- FETCH FIRST 1 ROW ONLY;
+""")
