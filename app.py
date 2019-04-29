@@ -134,6 +134,9 @@ def wikiCheat():
             return render_template("wikicheat.html", errormessage = "The first link you enterd does not exsits")
         elif not checkIfExsits(end_link):
             return render_template("wikicheat.html", errormessage = "The second link you enterd does not exsits")
+        elif start_link == end_link:
+            return render_template("wikicheat.html", errormessage = "Please enter two different links")
+
 
         start_time = time.time()
         path_length = degree_distance(start_link, end_link)

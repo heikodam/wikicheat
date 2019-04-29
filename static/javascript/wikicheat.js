@@ -27,6 +27,9 @@ function allowDrop(e) {
     // document.getElementById("myP").style.cursor = "pointer";
     positionCircle(e);
     document.getElementById('submit-btn').click();
+    // $.post( "/postmethod", {
+    //   javascript_data: data 
+    //   });
   }
 
 
