@@ -16,7 +16,7 @@ from fast import degree_distance
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
-app.config[os.urandom(12)]
+# app.config[os.urandom(12)]
 #db = SQLAlchemy(app)
 
 
