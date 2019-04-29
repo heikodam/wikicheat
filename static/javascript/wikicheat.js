@@ -26,10 +26,12 @@ function allowDrop(e) {
   function drop(e) {
     // document.getElementById("myP").style.cursor = "pointer";
     positionCircle(e);
-    document.getElementById('submit-btn').click();
-    // $.post( "/postmethod", {
-    //   javascript_data: data 
+    // document.getElementById('submit-btn').click();
+    // $.post( "/find_path", {
+    //   "start_link": document.getElementById("start_link").value,
+    //   "end_link": document.getElementById("end_link").value 
     //   });
+    find_path()
   }
 
 
@@ -50,3 +52,31 @@ function allowDrop(e) {
 
     }
   }
+
+//   $.get("/find_path", function(data) {
+//     console.log($.parseJSON(data))
+// })
+
+function find_path(){
+  $.getJSON('/find_path', {
+    "start_link": document.getElementById("start_link").value,
+    "end_link": document.getElementById("end_link").value 
+  }, function(data) {
+    console.log(data)
+    document.getElementById("wikicheat-div-result").style.display = "block";
+    document.getElementById("id-result-start_link").innerHTML = data.start_link;
+    document.getElementById("id-result-end_link").innerHTML = data.end_link;
+    document.getElementById("span-distance").innerHTML = data.distance + " clicks";
+    document.getElementById("span-runtime").innerHTML = data.time + "s";
+    
+  });
+}
+
+$("#wikicheat-form").submit(function(e) {
+  e.preventDefault();
+  find_path()
+});
+
+// form = document.getElementById("wikicheat-form");
+// form.onsubmit = find_path();
+
