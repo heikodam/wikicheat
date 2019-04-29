@@ -24,11 +24,26 @@ function allowDrop(e) {
   }
   
   function drop(e) {
+    var start_title = document.getElementById("start_link");
+    var end_title = document.getElementById("end_link");
+    console.log(start_title.innerHTML.length)
+    console.log("printed")
+    // Both if statements not working
+    if (!(start_title.innerHTML.length == 0 || end_title.innerHTML.length == 0)){
+      console.log("Error")
+      show_error("*Please fill out both input fields")
+    } else if(!(start_title.innerHTML ==  end_title.innerHTML)){
+      console.log("Error")
+      show_error("*Please enter 2 differnet Wikipedia Titles")
+    }
+    
+    else {
     positionCircle(e);
     start_loading()
     find_path()
     style_result()
     // end_loading()
+    }
   }
 
 
@@ -91,4 +106,8 @@ function end_loading(){
 }
 
 
-
+function show_error(msg){
+  var error = document.getElementById("error_message");
+  error.innerHTML = msg;
+  error.style.display = "block";
+}
