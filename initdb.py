@@ -71,7 +71,7 @@ CREATE TABLE records (
 	history_id INTEGER REFERENCES history(history_id)
 );
 
-INSERT INTO users (full_name, email, hash, gender) VALUES ('Heiko Damaske', 'heiko.damaske@gmail.com', '1234', (SELECT gender_id FROM gender WHERE gender = 'male'));
+INSERT INTO users (full_name, email, hash, gender) VALUES ('Jack', 'jack@gmail.com', '1234', (SELECT gender_id FROM gender WHERE gender = 'male'));
 
 INSERT INTO wikipages (title) VALUES ('Switzerland');
 INSERT INTO wikipages (title) VALUES ('Bern');
