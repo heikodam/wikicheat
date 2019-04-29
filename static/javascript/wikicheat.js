@@ -2,7 +2,7 @@
 // Some Code from https://medium.com/quick-code/simple-javascript-drag-drop-d044d8c5bed5
 
 var container = document.getElementById("main");
-var circle = document.querySelector(".start-button");
+var circle = document.querySelector("#loading");
 
 function positionCircle(e) {
   // var rect = container.getBoundingClientRect();  
@@ -25,8 +25,10 @@ function allowDrop(e) {
   
   function drop(e) {
     positionCircle(e);
+    start_loading()
     find_path()
     style_result()
+    // end_loading()
   }
 
 
@@ -57,14 +59,36 @@ function find_path(){
     document.getElementById("id-result-end_link").innerHTML = data.end_link;
     document.getElementById("span-distance").innerHTML = data.distance + " clicks";
     document.getElementById("span-runtime").innerHTML = data.time + "s";
+    var wiki_icon = document.getElementById("wiki-icon");
+    var loading = document.getElementById("loading");
+    loading.style.display = "none";
+    wiki_icon.style.display = "block"
     
   });
 }
 
 $("#wikicheat-form").submit(function(e) {
-  e.preventDefault();
-  find_path()
-  style_result()
+    e.preventDefault();
+    positionCircle(e);
+    start_loading()
+    find_path()
+    style_result()
+    // end_loading()
 });
+
+function start_loading(){
+  var wiki_icon = document.getElementById("wiki-icon");
+  var loading = document.getElementById("loading");
+  loading.style.display = "block";
+  wiki_icon.style.display = "none"
+}
+
+function end_loading(){
+  var wiki_icon = document.getElementById("wiki-icon");
+  var loading = document.getElementById("loading");
+  loading.style.display = "none";
+  wiki_icon.style.display = "block"
+}
+
 
 

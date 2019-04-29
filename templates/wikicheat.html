@@ -27,7 +27,8 @@
     <h6 id="button-instructions">*to start drag the wiki icon to any spot on the page</h6>
 </div>
 <div id="icon">
-  <img src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
+  <img id="wiki-icon" src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
+  <img id="loading" src="{{ url_for('static', filename='pictures/loading.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
 </div>
 
 
