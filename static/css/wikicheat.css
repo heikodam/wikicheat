@@ -71,7 +71,7 @@ a{
 }
 
 #submit-btn{
-  display: none;
+  display: block;
 }
 
 .start-button {
