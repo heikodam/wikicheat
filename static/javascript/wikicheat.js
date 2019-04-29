@@ -24,26 +24,18 @@ function allowDrop(e) {
   }
   
   function drop(e) {
-    // document.getElementById("myP").style.cursor = "pointer";
     positionCircle(e);
-    // document.getElementById('submit-btn').click();
-    // $.post( "/find_path", {
-    //   "start_link": document.getElementById("start_link").value,
-    //   "end_link": document.getElementById("end_link").value 
-    //   });
     find_path()
+    style_result()
   }
 
 
-  window.onload = function(){
+  function style_result(){
     var start_title = document.getElementById("id-result-start_link");
     var end_title = document.getElementById("id-result-end_link");
     var arrow = document.getElementById("id-result-arrow");
     
     if ((start_title.innerHTML.length + end_title.innerHTML.length) > 23){
-      // Change css Class
-      // start_title.classList.add("block left");
-      // end_title.classList.add("block right");
       start_title.className += " block";
       start_title.style.textAlign = " left";
       end_title.className += " block";
@@ -53,9 +45,6 @@ function allowDrop(e) {
     }
   }
 
-//   $.get("/find_path", function(data) {
-//     console.log($.parseJSON(data))
-// })
 
 function find_path(){
   $.getJSON('/find_path', {
@@ -75,8 +64,7 @@ function find_path(){
 $("#wikicheat-form").submit(function(e) {
   e.preventDefault();
   find_path()
+  style_result()
 });
 
-// form = document.getElementById("wikicheat-form");
-// form.onsubmit = find_path();
 

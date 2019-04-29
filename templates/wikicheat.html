@@ -31,29 +31,6 @@
 </div>
 
 
-  {% if result%}
-
-  <div class="div-result">
-    <div class="result-header">
-      <span class="result-start_link" id="id-result-start_link">{{result["start_link"] | replace("_", " ") | capitalize}}</span>
-      <span class="result-arrow" id="id-result-arrow">&#x2192;</span>
-      <span class="result-end_link" id="id-result-end_link">{{result["end_link"] | replace("_", " ") | capitalize}}</span>
-    </div>
-    <div class="div-result-data">
-      <div class="dd-result-data">
-        <span class="tag">Distance:</span> <span class="result-data">{{result["path_length"]}} clicks</span>
-      </div>
-      <div class="dd-result-data">
-        <span class="tag">Run-time:</span> <span class="result-data">{{result["runtime"]}} s </span>
-      </div>
-    </div>
-    <div id="div-statistics-tag">
-      <a id="statistics-tag" href="/statistics">View all Statistics</a>
-    </div>
-  </div>    
-
-  {% endif %}
-
   <div class="div-result" id="wikicheat-div-result">
     <div class="result-header">
       <span class="result-start_link" id="id-result-start_link">Start_link</span>
