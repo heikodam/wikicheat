@@ -10,6 +10,7 @@ def wikicheat(start_link, end_link):
     path_length = degree_distance(start_link, end_link)
     runtime = round(time.time() - start_time, 3)
 
+    start_time = time.time()
     user_id = session['user_id']
     cursor = get_db()
     cursor.execute("INSERT INTO wikipages (title) VALUES ('{0}') ON CONFLICT DO NOTHING;".format(start_link))
@@ -23,22 +24,27 @@ def wikicheat(start_link, end_link):
                         {runtime}
                     );""".format(user_id=user_id, start_link=start_link, end_link=end_link, degrees_away=path_length, runtime=runtime))
 
-    cursor.execute("SELECT MAX(history_id) FROM history;")        
-    history_id = cursor.fetchall()[0][0]
+    print("Insert into history runtime: ", round(time.time() - start_time, 3))
+    start_time = time.time()
 
-    #check all records
-    cursor.execute("SELECT r.type_of_record, h.degrees_away ,h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;")
-    records = cursor.fetchall()
-    for record in records:
-        if record[0] == 'longest_runtime' and runtime > record[2]:
-            cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_runtime"))
-        if record[0] == 'shortest_runtime' and runtime < record[2]:
-            cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "shortest_runtime"))
-        if record[0] == 'longest_path' and path_length > record[1]:
-            cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
-        #Update most recent history
-        cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
+    # cursor.execute("SELECT MAX(history_id) FROM history;")        
+    # history_id = cursor.fetchall()[0][0]
 
+    # #check all records
+    # cursor.execute("SELECT r.type_of_record, h.degrees_away ,h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;")
+    # records = cursor.fetchall()
+    # for record in records:
+    #     if record[0] == 'longest_runtime' and runtime > record[2]:
+    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_runtime"))
+    #     if record[0] == 'shortest_runtime' and runtime < record[2]:
+    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "shortest_runtime"))
+    #     if record[0] == 'longest_path' and path_length > record[1]:
+    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
+    #     #Update most recent history
+    #     cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
+
+
+    print("Updating Records Runtime: ", round(time.time() - start_time, 3))
     cursor.close()
 
     dataLayer = {"event": "wikicheat", "user_id": user_id}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Test{% endblock %}
+
+
+
+{% block content %}
+
+<form action="/test" method="post" id="login-form">
+    <input name="email" class="info" id="email" placeholder="Email" required>
+  </form>
+  <input type="submit" value="Log In" id="login-btn" form="login-form" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Login'});" >
+
+
+{% endblock %}

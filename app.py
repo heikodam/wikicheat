@@ -8,7 +8,7 @@ import time
 # import json
 
 #my imports
-from connect_db_test import get_db
+from connect_db_test import *
 # from live_finder import *
 from web_scraper import checkIfExsits
 from fast import degree_distance
@@ -48,18 +48,18 @@ def register():
         cursor = get_db()
         
         #check if email already exists
-        cursor.execute("SELECT email FROM users WHERE email = '{}' ".format(entered_email))
+        cursor.execute("SELECT email FROM users WHERE email = %s ", (entered_email, ))
 
         user = cursor.fetchall()
         if len(user) > 0:
             return render_template("registration.html", errormessage = "There is already an email assigned to this account")
 
         hash = generate_password_hash(entered_password)
-        cursor.execute("SELECT gender_id FROM gender WHERE gender='{}'".format(entered_gender))
+        cursor.execute("SELECT get_gender_id(%s);", (entered_gender,))
         gender_id = cursor.fetchall()[0][0]
-        cursor.execute("INSERT INTO users (full_name, email, hash, gender) VALUES ('{}', '{}', '{}', '{}');".format(entered_name, entered_email, hash, gender_id))
+        cursor.execute("INSERT INTO users (full_name, email, hash, gender) VALUES (%s, %s, %s, %s);", (entered_name, entered_email, hash, gender_id, ))
 
-        cursor.execute("SELECT user_id FROM users WHERE email ='{}' ".format(entered_email))
+        cursor.execute("SELECT user_id FROM users WHERE email = %s ", (entered_email, ))
         user_id = cursor.fetchall()[0][0]
 
         session['user_id'] = user_id
@@ -91,7 +91,7 @@ def login():
         #get data from db
         cursor = get_db()
 
-        cursor.execute("SELECT user_id, email, hash, full_name FROM users WHERE email = '{}' ".format(entered_email))
+        cursor.execute("SELECT user_id, email, hash, full_name FROM users WHERE email = %s ", (entered_email, ))
         user = cursor.fetchall()
         
         if len(user) == 1:
@@ -153,8 +153,8 @@ def settings():
         cursor.execute("""SELECT u.full_name, u.email, u.hash, d.gender FROM users u 
                                 JOIN gender d 
                                 ON u.gender = d.gender_id
-                                WHERE user_id = {};  
-                                """.format(user_id))
+                                WHERE user_id = %s;  
+                                """, (user_id,))
         user = cursor.fetchall()
         personal_data = {}
         personal_data["full_name"] = user[0][0]
@@ -164,11 +164,11 @@ def settings():
 
 
         if personal_data['full_name'] != entered_data['full_name']:
-            cursor.execute("UPDATE users SET full_name = '{}' WHERE user_id = {};".format(entered_data['full_name'], user_id))
+            cursor.execute("UPDATE users SET full_name = %s WHERE user_id = %s;", (entered_data['full_name'], user_id, ))
         if personal_data['email'] != entered_data['email']:
-            cursor.execute("UPDATE users SET email = '{}' WHERE user_id = {};".format(entered_data['email'], user_id))
+            cursor.execute("UPDATE users SET email = %s WHERE user_id = %s",(entered_data['email'], user_id,))
         if personal_data['gender'] != entered_data['gender']:
-            cursor.execute("UPDATE users SET gender = (SELECT gender_id FROM gender WHERE gender = '{}') WHERE user_id = {};".format(entered_data['gender'], user_id))
+            cursor.execute("UPDATE users SET gender = (SELECT get_gender_id(%s)) WHERE user_id = %s;",(entered_data['gender'], user_id, ))
 
         
 
@@ -177,7 +177,7 @@ def settings():
                 return render_template("settings.html", errormessage = 'There was a error with the Passwords you entered')
             else:
                 new_hash = generate_password_hash(entered_data['new_password'])
-                cursor.execute("UPDATE users SET hash = '{}' WHERE user_id = {};".format(new_hash, user_id))
+                cursor.execute("UPDATE users SET hash = %s WHERE user_id = %s;",(new_hash, user_id,))
 
         return redirect("/")
 
@@ -191,8 +191,8 @@ def settings():
             cursor.execute("""SELECT u.full_name, u.email, d.gender FROM users u 
                                 JOIN gender d 
                                 ON u.gender = d.gender_id
-                                WHERE user_id = {};  
-                                """.format(user_id))
+                                WHERE user_id = %s;  
+                                """, (user_id, ))
             user = cursor.fetchall()
             personal_data = {}
             personal_data["full_name"] = user[0][0]
@@ -211,50 +211,42 @@ def statistics():
         user_id = session['user_id']
         records = []
 
-        cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link,  h.degrees_away
-                            FROM records r 
-                            LEFT JOIN history h 
-                            ON r.history_id = h.history_id 
-                            INNER JOIN users u
-                            ON h.user_id = u.user_id
-                            INNER JOIN wikiPages s
-                            ON h.start_link = s.wiki_id
-							INNER JOIN wikiPages e
-                            ON h.end_link = e.wiki_id;""")
-        db_records = cursor.fetchall()
+        # cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link,  h.degrees_away
+        #                     FROM records r 
+        #                     LEFT JOIN history h 
+        #                     ON r.history_id = h.history_id 
+        #                     INNER JOIN users u
+        #                     ON h.user_id = u.user_id
+        #                     INNER JOIN wikiPages s
+        #                     ON h.start_link = s.wiki_id
+		# 					INNER JOIN wikiPages e
+        #                     ON h.end_link = e.wiki_id;""")
+        # db_records = cursor.fetchall()
+
         users_records = {}
-        for record in db_records:
-            print(record)
-            users_records[record[0]] = {
-                        "username": record[1],
-                        "runtime": record[2],
-                        "start_page": record[3],
-                        "end_page": record[4],
-                        "distance": record[5]
-                    } 
+
+        users_records['most_recent'] = get_record("SELECT * FROM get_most_recent();")
+        users_records['longest_path'] = get_record("SELECT * FROM get_longest_path();")
+        users_records['longest_runtime'] = get_record("SELECT * FROM get_longest_runtime();")
+        users_records['shortest_runtime'] = get_record("SELECT * FROM get_shortest_runtime();")
+
+
+        # for record in db_records:
+        #     print(record)
+        #     users_records[record[0]] = {
+        #                 "username": record[1],
+        #                 "runtime": record[2],
+        #                 "start_page": record[3],
+        #                 "end_page": record[4],
+        #                 "distance": record[5]
+        #             } 
             
 
 
-        cursor.execute("""
-        SELECT w.title, COUNT(*) 
-        FROM history h
-        INNER JOIN wikipages w
-        ON start_link = w.wiki_id
-        GROUP BY w.title
-        ORDER BY COUNT(*) DESC
-        LIMIT 1;
-        """)
+        cursor.execute("SELECT * FROM get_mp_start_page();")
         db_start_page = cursor.fetchall()
 
-        cursor.execute("""
-        SELECT w.title, COUNT(*) 
-        FROM history h
-        INNER JOIN wikipages w
-        ON end_link = w.wiki_id
-        GROUP BY w.title
-        ORDER BY COUNT(*) DESC
-        LIMIT 1;
-        """)
+        cursor.execute("SELECT * FROM get_mp_end_page();")
         db_end_page =cursor.fetchall()
 
         page_records = {
@@ -288,6 +280,33 @@ def get_post_javascript_data():
     distance, time = wikicheat(start_link, end_link)
     
     return jsonify({'start_link': start_link, 'end_link': end_link, 'distance': distance, 'time': time})
+
+
+
+
+
+@app.route('/test', methods=('GET', 'POST'))
+def test():
+    if request.method == 'POST':
+        #get data from form
+        entered_email = request.form['email']
+
+
+        #get data from db
+        cursor = get_db()
+
+        # command = "SELECT user_id, email, hash, full_name FROM users WHERE email = :email; ", email=entered_email
+        # print(command)
+        cursor.execute("INSERT INTO test (id, name) VALUES (%s, %s);", (5, entered_email))
+        #cursor.execute("INSERT INTO test (id, name) VALUES (3, ?);", entered_email)
+
+        user = cursor.execute("SELECT * FROM test;")
+        # user = cursor.fetchall()
+        print(user)
+        return render_template("test.html")
+
+    else:
+        return render_template("test.html")
 
 
 
