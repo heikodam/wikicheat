@@ -269,15 +269,17 @@ def get_post_javascript_data():
     end_link = request.args.get('end_link', '', type=str)
 
     if not start_link or not end_link:
-        return render_template("wikicheat.html", errormessage = "Please enter 2 Valid Values")
+        return jsonify({"error": "Please enter 2 Valid Values"})
     elif not checkIfExsits(start_link):
-        return render_template("wikicheat.html", errormessage = "The first link you enterd does not exsits")
+        print("retunring now")
+        return jsonify({"error": "The first link you enterd does not exsits"})
     elif not checkIfExsits(end_link):
-        return render_template("wikicheat.html", errormessage = "The second link you enterd does not exsits")
+        return jsonify({"error": "The second link you enterd does not exsits"})
     elif start_link == end_link:
-        return render_template("wikicheat.html", errormessage = "Please enter two different links")
+        return jsonify({"error": "Please enter two different links"})
 
     distance, time = wikicheat(start_link, end_link)
+
     
     return jsonify({'start_link': start_link, 'end_link': end_link, 'distance': distance, 'time': time})
 

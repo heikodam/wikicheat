@@ -22,6 +22,7 @@
     font-size: 40px;
     padding: 30px 10%;
     text-align: center;
+    text-transform: capitalize;
   }
   
   .result-start_link{
@@ -104,5 +105,20 @@
     }
     .result-arrow{
       transform: rotate(40deg);
+    }
+    .div-result-data{
+      font-size: 25px;
+    }
+    .result-start_link, .result-end_link{
+      font-size: 30px;
+    }
+  }
+
+  @media screen and (max-width: 400px){
+    .div-result-data{
+      font-size: 20px;
+    }
+    .result-start_link, .result-end_link{
+      font-size: 30px;
     }
   }
