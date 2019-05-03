@@ -13,19 +13,18 @@ def wikicheat(start_link, end_link):
     start_time = time.time()
     user_id = session['user_id']
     cursor = get_db()
-    cursor.execute("INSERT INTO wikipages (title) VALUES ('{0}') ON CONFLICT DO NOTHING;".format(start_link))
-    cursor.execute("INSERT INTO wikipages (title) VALUES ('{0}') ON CONFLICT DO NOTHING;".format(end_link))
+    cursor.execute("INSERT INTO wikipages (title) VALUES (%s) ON CONFLICT DO NOTHING;", (start_link, ))
+    cursor.execute("INSERT INTO wikipages (title) VALUES (%s) ON CONFLICT DO NOTHING;", (end_link,))
     cursor.execute("""INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) 
                     VALUES (
-                        {user_id},
-                        (SELECT wiki_id FROM wikiPages WHERE title='{start_link}'),
-                        (SELECT wiki_id FROM wikiPages WHERE title='{end_link}'),
-                        {degrees_away},
-                        {runtime}
-                    );""".format(user_id=user_id, start_link=start_link, end_link=end_link, degrees_away=path_length, runtime=runtime))
+                        %s,
+                        (SELECT wiki_id FROM wikiPages WHERE title=%s),
+                        (SELECT wiki_id FROM wikiPages WHERE title=%s),
+                        %s,
+                        %s
+                    );""", (user_id, start_link, end_link, path_length, runtime))
 
     print("Insert into history runtime: ", round(time.time() - start_time, 3))
-    start_time = time.time()
 
     # cursor.execute("SELECT MAX(history_id) FROM history;")        
     # history_id = cursor.fetchall()[0][0]
@@ -42,9 +41,6 @@ def wikicheat(start_link, end_link):
     #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
     #     #Update most recent history
     #     cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
-
-
-    print("Updating Records Runtime: ", round(time.time() - start_time, 3))
     cursor.close()
 
     dataLayer = {"event": "wikicheat", "user_id": user_id}
