@@ -40,11 +40,16 @@
     
     
   </form>
-
-  <input type="submit" value="Register" id="register-btn" class="btn" form="registration-form" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register (Loged Out)'});">
+    <h6 id="form-error-msg">
+      {% if errormessage %}*{{ errormessage }}{% endif %}
+    </h6>
+  <input type="submit" value="Register" id="register-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register (Loged Out)'});">
 
   <form action="/login">
     <input type="submit" value="Login" id="login-btn" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Register btn on Login'});">
     </form>
 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='javascript/register.js') }}"></script>
 {% endblock %}

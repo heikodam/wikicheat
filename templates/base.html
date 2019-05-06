@@ -84,7 +84,9 @@
                             <a class="nav-link" href="/settings" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Settings (Loged In)'});">Settings</a>
                         <hr class="menu-hr">
                         <hr class="menu-hr">
-                            <a class="nav-link" href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV Login (Loged In)'});">Log Out</a>
+                            <a class="nav-link" href="https://github.com/heikodam/wikicheat" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV GitHUb (Loged In)'});">GitHub</a>
+                        <hr class="menu-hr">
+                            <a class="nav-link" href="/logout" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'NAV logout (Loged In)'});">Log Out</a>
                         <hr class="menu-hr">
                     {% else %}
                         <hr class="menu-hr">
@@ -106,12 +108,6 @@
 
         <!-- END OF NAVBAR -->
 
-    
-
-    
-    {% if errormessage %}
-    <h6><font color="grey">{{ errormessage }}</font></h6>
-    {% endif %}
 
     {% block content %}{% endblock %}
 

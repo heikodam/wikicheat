@@ -32,10 +32,6 @@ def getAllUrl(title):
             linklist.add(link[2:].lower())
     return linklist
 
-# ll = getAllUrl("Flour")
-# print(ll)
-# if("Mixer_(cooking)" in ll):
-#     print("Found it")
 
 
 def getAllBackLinks(title):

@@ -26,21 +26,6 @@ def wikicheat(start_link, end_link):
 
     print("Insert into history runtime: ", round(time.time() - start_time, 3))
 
-    # cursor.execute("SELECT MAX(history_id) FROM history;")        
-    # history_id = cursor.fetchall()[0][0]
-
-    # #check all records
-    # cursor.execute("SELECT r.type_of_record, h.degrees_away ,h.runtime FROM records r LEFT JOIN history h ON r.history_id = h.history_id;")
-    # records = cursor.fetchall()
-    # for record in records:
-    #     if record[0] == 'longest_runtime' and runtime > record[2]:
-    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_runtime"))
-    #     if record[0] == 'shortest_runtime' and runtime < record[2]:
-    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "shortest_runtime"))
-    #     if record[0] == 'longest_path' and path_length > record[1]:
-    #         cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "longest_path"))
-    #     #Update most recent history
-    #     cursor.execute("UPDATE records SET history_id={} WHERE type_of_record = '{}';".format(history_id, "most_recent"))
     cursor.close()
 
     dataLayer = {"event": "wikicheat", "user_id": user_id}

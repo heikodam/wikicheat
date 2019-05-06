@@ -5,11 +5,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import psycopg2
 import time
-# import json
 
 #my imports
 from connect_db_test import *
-# from live_finder import *
 from web_scraper import checkIfExsits
 from fast import degree_distance
 from wikicheat import *
@@ -17,8 +15,6 @@ from wikicheat import *
 
 app = Flask(__name__)
 app.secret_key = "mysupersecretkey"
-# app.config[os.urandom(12)]
-#db = SQLAlchemy(app)
 
 
 @app.route("/")
@@ -211,37 +207,12 @@ def statistics():
         user_id = session['user_id']
         records = []
 
-        # cursor.execute("""SELECT r.type_of_record, u.full_name, h.runtime, s.title AS start_link, e.title AS end_link,  h.degrees_away
-        #                     FROM records r 
-        #                     LEFT JOIN history h 
-        #                     ON r.history_id = h.history_id 
-        #                     INNER JOIN users u
-        #                     ON h.user_id = u.user_id
-        #                     INNER JOIN wikiPages s
-        #                     ON h.start_link = s.wiki_id
-		# 					INNER JOIN wikiPages e
-        #                     ON h.end_link = e.wiki_id;""")
-        # db_records = cursor.fetchall()
-
         users_records = {}
 
         users_records['most_recent'] = get_record("SELECT * FROM get_most_recent();")
         users_records['longest_path'] = get_record("SELECT * FROM get_longest_path();")
         users_records['longest_runtime'] = get_record("SELECT * FROM get_longest_runtime();")
         users_records['shortest_runtime'] = get_record("SELECT * FROM get_shortest_runtime();")
-
-
-        # for record in db_records:
-        #     print(record)
-        #     users_records[record[0]] = {
-        #                 "username": record[1],
-        #                 "runtime": record[2],
-        #                 "start_page": record[3],
-        #                 "end_page": record[4],
-        #                 "distance": record[5]
-        #             } 
-            
-
 
         cursor.execute("SELECT * FROM get_mp_start_page();")
         db_start_page = cursor.fetchall()
@@ -282,34 +253,6 @@ def get_post_javascript_data():
 
     
     return jsonify({'start_link': start_link, 'end_link': end_link, 'distance': distance, 'time': time})
-
-
-
-
-
-@app.route('/test', methods=('GET', 'POST'))
-def test():
-    if request.method == 'POST':
-        #get data from form
-        entered_email = request.form['email']
-
-
-        #get data from db
-        cursor = get_db()
-
-        # command = "SELECT user_id, email, hash, full_name FROM users WHERE email = :email; ", email=entered_email
-        # print(command)
-        cursor.execute("INSERT INTO test (id, name) VALUES (%s, %s);", (5, entered_email))
-        #cursor.execute("INSERT INTO test (id, name) VALUES (3, ?);", entered_email)
-
-        user = cursor.execute("SELECT * FROM test;")
-        # user = cursor.fetchall()
-        print(user)
-        return render_template("test.html")
-
-    else:
-        return render_template("test.html")
-
 
 
 if __name__ == "__main__":

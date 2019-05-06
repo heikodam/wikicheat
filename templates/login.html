@@ -12,6 +12,9 @@
     <input name="email" class="info" id="email" placeholder="Email" required>
     <input type="password" name="password" class="info" id="password" placeholder="Password" required>
   </form>
+  <h6 id="form-error-msg">
+    {% if errormessage %}*{{ errormessage }}{% endif %}
+  </h6>
   <input type="submit" value="Log In" id="login-btn" form="login-form" class="btn" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Login'});" >
 
 

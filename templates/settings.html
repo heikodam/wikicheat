@@ -38,6 +38,9 @@
     <input type="password" name="password" id="password" class="info" placeholder="Password">
     <input type="password" name="confirm_password" id="confirm_password" class="info" placeholder="Confirm Password">
   </form>
+  <h6 id="form-error-msg">
+    {% if errormessage %}*{{ errormessage }}{% endif %}
+  </h6>
   <input type="submit" id="save-btn" class="btn" value="Save" form="setting-form" onclick="dataLayer.push({'event': 'buttonClick', 'button': 'Settings (Logged In)'});">
 
 {% endif %}
