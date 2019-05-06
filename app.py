@@ -209,15 +209,15 @@ def statistics():
 
         users_records = {}
 
-        users_records['most_recent'] = get_record("SELECT * FROM get_most_recent();")
-        users_records['longest_path'] = get_record("SELECT * FROM get_longest_path();")
-        users_records['longest_runtime'] = get_record("SELECT * FROM get_longest_runtime();")
-        users_records['shortest_runtime'] = get_record("SELECT * FROM get_shortest_runtime();")
+        users_records['most_recent'] = get_record("SELECT * FROM most_recent;")
+        users_records['longest_path'] = get_record("SELECT * FROM longest_path;")
+        users_records['longest_runtime'] = get_record("SELECT * FROM longest_runtime;")
+        users_records['shortest_runtime'] = get_record("SELECT * FROM shortest_runtime;")
 
-        cursor.execute("SELECT * FROM get_mp_start_page();")
+        cursor.execute("SELECT * FROM mp_start_page;")
         db_start_page = cursor.fetchall()
 
-        cursor.execute("SELECT * FROM get_mp_end_page();")
+        cursor.execute("SELECT * FROM mp_end_page;")
         db_end_page =cursor.fetchall()
 
         page_records = {

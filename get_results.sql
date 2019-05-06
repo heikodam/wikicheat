@@ -1,43 +1,50 @@
 -- Get the most recent entry in history
-SELECT s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+SELECT u.full_name AS username, s.title AS start_page, e.title AS end_page, h.degrees_away, h.runtime 
         FROM history h
-		INNER JOIN wikipages AS s
+		JOIN wikipages AS s
 		ON h.start_link = s.wiki_id
-		INNER JOIN wikipages AS e
+		JOIN wikipages AS e
 		ON h.end_link = e.wiki_id
-        ORDER BY h.user_id DESC
-		LIMIT 1;
+		JOIN users AS u
+		ON h.user_id = u.user_id
+        where h.history_id = (select max(history_id) from history);
 
 
 -- Get the longest Runtime
-SELECT s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+SELECT u.full_name AS username, s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
         FROM history h
 		INNER JOIN wikipages AS s
 		ON h.start_link = s.wiki_id
 		INNER JOIN wikipages AS e
 		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
         ORDER BY h.runtime DESC
 		LIMIT 1;
 
 
--- Get the shortest Path
-SELECT s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+-- Get the shortest Runtime
+SELECT u.full_name AS username, s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
         FROM history h
 		INNER JOIN wikipages AS s
 		ON h.start_link = s.wiki_id
 		INNER JOIN wikipages AS e
 		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
         ORDER BY h.runtime ASC
 		LIMIT 1;
 
 
 -- Get the longest path
-SELECT s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+SELECT u.full_name AS username, s.title AS start_page, e.title AS end_age, h.degrees_away, h.runtime 
         FROM history h
 		INNER JOIN wikipages AS s
 		ON h.start_link = s.wiki_id
 		INNER JOIN wikipages AS e
 		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
         ORDER BY h.degrees_away DESC, h.runtime ASC
 		LIMIT 1;
 
@@ -60,6 +67,11 @@ SELECT w.title, COUNT(*)
         GROUP BY w.title
         ORDER BY COUNT(*) DESC
         LIMIT 1;
+
+
+
+-- FUNCTIONS
+
 
 -- Function to get the gender id
 DROP FUNCTION IF EXISTS get_gender_id(text);
@@ -132,14 +144,13 @@ BEGIN
 RETURN QUERY
 SELECT u.full_name AS username, s.title AS start_page, e.title AS end_page, h.degrees_away, h.runtime 
         FROM history h
-		INNER JOIN wikipages AS s
+		JOIN wikipages AS s
 		ON h.start_link = s.wiki_id
-		INNER JOIN wikipages AS e
+		JOIN wikipages AS e
 		ON h.end_link = e.wiki_id
-		INNER JOIN users AS u
+		JOIN users AS u
 		ON h.user_id = u.user_id
-        ORDER BY h.user_id DESC
-		LIMIT 1;
+        where h.history_id = (select max(history_id) from history);
 END
 $$
 LANGUAGE 'plpgsql';
@@ -221,3 +232,84 @@ SELECT u.full_name AS username, s.title AS Start_Page, e.title AS End_Page, h.de
 END
 $$
 LANGUAGE 'plpgsql';
+
+
+
+-- VIEWS
+
+-- view to get the mp start page
+DROP VIEW IF EXISTS mp_start_page;
+CREATE OR REPLACE VIEW mp_start_page AS
+SELECT w.title, COUNT(*) 
+        FROM history h
+        INNER JOIN wikipages w
+        ON start_link = w.wiki_id
+        GROUP BY w.title
+        ORDER BY COUNT(*) DESC
+        LIMIT 1;
+
+-- view get the mp end page
+DROP VIEW IF EXISTS mp_end_page;
+CREATE OR REPLACE VIEW mp_end_page AS 
+SELECT w.title, COUNT(*) 
+        FROM history h
+        INNER JOIN wikipages w
+        ON end_link = w.wiki_id
+        GROUP BY w.title
+        ORDER BY COUNT(*) DESC
+        LIMIT 1;
+
+-- view get the longest runtime
+DROP VIEW IF EXISTS longest_runtime;
+CREATE OR REPLACE VIEW longest_runtime AS
+SELECT u.full_name AS username, s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+        FROM history h
+		INNER JOIN wikipages AS s
+		ON h.start_link = s.wiki_id
+		INNER JOIN wikipages AS e
+		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
+        ORDER BY h.runtime DESC
+		LIMIT 1;
+
+-- view get the shortest runtime
+DROP VIEW IF EXISTS shortest_runtime;
+CREATE OR REPLACE VIEW shortest_runtime AS
+SELECT u.full_name AS username, s.title AS Start_Page, e.title AS End_Page, h.degrees_away, h.runtime 
+        FROM history h
+		INNER JOIN wikipages AS s
+		ON h.start_link = s.wiki_id
+		INNER JOIN wikipages AS e
+		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
+        ORDER BY h.runtime ASC
+		LIMIT 1;
+
+-- view get the most recent entry in history
+DROP VIEW IF EXISTS most_recent;
+CREATE OR REPLACE VIEW most_recent AS
+SELECT u.full_name AS username, s.title AS start_page, e.title AS end_page, h.degrees_away, h.runtime 
+        FROM history h
+		JOIN wikipages AS s
+		ON h.start_link = s.wiki_id
+		JOIN wikipages AS e
+		ON h.end_link = e.wiki_id
+		JOIN users AS u
+		ON h.user_id = u.user_id
+        where h.history_id = (select max(history_id) from history);
+
+-- view get the longest path
+DROP VIEW IF EXISTS longest_path;
+CREATE OR REPLACE VIEW longest_path AS
+SELECT u.full_name AS username, s.title AS start_page, e.title AS end_age, h.degrees_away, h.runtime 
+        FROM history h
+		INNER JOIN wikipages AS s
+		ON h.start_link = s.wiki_id
+		INNER JOIN wikipages AS e
+		ON h.end_link = e.wiki_id
+		INNER JOIN users AS u
+		ON h.user_id = u.user_id
+        ORDER BY h.degrees_away DESC, h.runtime ASC
+		LIMIT 1;
