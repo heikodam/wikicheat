@@ -23,7 +23,9 @@
         <span id="header-to" class="header-connection">to</span>
         <input type="text" name="end_link" id="end_link" class="info" placeholder="Wikipedia Page Title" required>
     </form>
-    <h6 id="button-instructions">*to start drag the wiki icon to any spot on the page</h6>
+    <h6 id="drag-instructions" class="button-instructions">*to start drag the wiki icon to any spot on the page</h6>
+    <h6 id="tap-instructions" class="button-instructions">*to start tap the wiki icon</h6>
+
 </div>
 <div id="icon">
   <img id="wiki-icon" src="{{ url_for('static', filename='pictures/wiki.png') }}" alt="wiki button" class="start-button" draggable="true" ondragstart="drag(event)" width="150" >
@@ -62,8 +64,7 @@
 
 </div>
 
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script src="{{ url_for('static', filename='javascript/wikicheat.js') }}"></script>
 {% endblock %}

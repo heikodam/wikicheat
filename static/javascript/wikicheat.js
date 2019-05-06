@@ -4,39 +4,21 @@ function allowDrop(e) {
 
 function drag(e) {
 // what to do on drag
+
 }
 
 function drop(e) {
-  var start_title = document.getElementById("start_link");
-  var end_title = document.getElementById("end_link");
-  if (start_title.value.length == 0 || end_title.value.length == 0){
-    show_error("*Please fill out both input fields")
-  } else if(start_title.value ==  end_title.value){
-    show_error("*Please enter 2 differnet Wikipedia Titles")
-  }
-
-  else {
-  start_loading()
-  find_path()
-  }
+  check_submit();
 }
 
+wiki_icon = document.getElementById("wiki-icon");
+wiki_icon.addEventListener('touchend', function(){
+  check_submit();
+}, false)
 
-function style_result(){
-  var start_title = document.getElementById("id-result-start_link");
-  var end_title = document.getElementById("id-result-end_link");
-  var arrow = document.getElementById("id-result-arrow");
-
-  if ((start_title.innerHTML.length + end_title.innerHTML.length) > 18){
-    
-    start_title.className += " block";
-    start_title.style.textAlign = " left";
-    end_title.className += " block";
-    end_title.style.textAlign = " right";
-    arrow.className += " block rotate";
-
-  }
-}
+$("#wiki-icon").on("tap", function(){
+  check_submit();
+})
 
 
 function find_path(){
@@ -65,10 +47,24 @@ $.getJSON('/find_path', {
 
 $("#wikicheat-form").submit(function(e) {
     e.preventDefault();
-    positionLoading(e);
-    start_loading()
-    find_path()
+    check_submit();
 });
+
+function check_submit(){
+  var start_title = document.getElementById("start_link");
+  var end_title = document.getElementById("end_link");
+  if (start_title.value.length == 0 || end_title.value.length == 0){
+    show_error("*Please fill out both input fields")
+  } else if(start_title.value ==  end_title.value){
+    show_error("*Please enter 2 differnet Wikipedia Titles")
+  }
+
+  else {
+  remove_error()
+  start_loading()
+  find_path()
+  }
+}
 
 function start_loading(){
   var wiki_icon = document.getElementById("wiki-icon");
@@ -91,6 +87,11 @@ function show_error(msg){
   error.style.display = "block";
 }
 
+function remove_error(){
+  var error = document.getElementById("error_message");
+  error.style.display = "none";
+}
+
 
 function positionLoading(e) {
   var container = document.getElementById("main");
@@ -100,4 +101,22 @@ function positionLoading(e) {
   var relY = e.clientY - container.offsetTop;
 
   TweenMax.to(loading, 1, { x: relX, y: relY });
+}
+
+
+
+function style_result(){
+  var start_title = document.getElementById("id-result-start_link");
+  var end_title = document.getElementById("id-result-end_link");
+  var arrow = document.getElementById("id-result-arrow");
+
+  if ((start_title.innerHTML.length + end_title.innerHTML.length) > 18){
+    
+    start_title.className += " block";
+    start_title.style.textAlign = " left";
+    end_title.className += " block";
+    end_title.style.textAlign = " right";
+    arrow.className += " block rotate";
+
+  }
 }

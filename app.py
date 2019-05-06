@@ -147,7 +147,7 @@ def settings():
         cursor = get_db()
         user_id = session['user_id']
         cursor.execute("""SELECT u.full_name, u.email, u.hash, d.gender FROM users u 
-                                JOIN gender d 
+                                INNER JOIN gender d 
                                 ON u.gender = d.gender_id
                                 WHERE user_id = %s;  
                                 """, (user_id,))

@@ -66,8 +66,16 @@ a{
 }
 
 
-#button-instructions{
+.button-instructions{
   color: var(--my-grey);
+}
+
+#drag-instructions{
+  display: block;
+}
+
+#tap-instructions{
+  display: none;
 }
 
 #submit-btn{
@@ -113,6 +121,14 @@ a{
     font-size: 80px;
   }
   
+  #drag-instructions{
+    display: none;
+  }
+  
+  #tap-instructions{
+    display: block;
+  }
+
 }
 
 #wikicheat-div-result{
@@ -139,4 +155,9 @@ a{
   margin-top: -30px;
   font-size: 18px;
   display: none;
+}
+
+
+#wiki-icon{
+  cursor: pointer;
 }
