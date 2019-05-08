@@ -23,8 +23,8 @@ $("#wiki-icon").on("tap", function(){
 
 function find_path(){
 $.getJSON('/find_path', {
-  "start_link": document.getElementById("start_link").value.replace(" ", "_"),
-  "end_link": document.getElementById("end_link").value.replace(" ", "_") 
+  "start_link": document.getElementById("start_link").value.replace(" ", "_").toLowerCase(),
+  "end_link": document.getElementById("end_link").value.replace(" ", "_").toLowerCase() 
 }, function(data) {
   if (data.error){
     show_error(data.error)
@@ -55,7 +55,7 @@ function check_submit(){
   var end_title = document.getElementById("end_link");
   if (start_title.value.length == 0 || end_title.value.length == 0){
     show_error("*Please fill out both input fields")
-  } else if(start_title.value ==  end_title.value){
+  } else if(start_title.value.toLowerCase() ==  end_title.value.toLowerCase()){
     show_error("*Please enter 2 differnet Wikipedia Titles")
   }
 

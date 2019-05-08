@@ -1,6 +1,7 @@
 import web_scraper
 import sys
 
+
 def is_link_in_page(page_to_check, end_link):
     links_on_page = web_scraper.getAllUrl(page_to_check)
     if end_link in links_on_page:
@@ -23,7 +24,6 @@ def get_all_degree_links(degree, start_degree_pages, end_link, path, reverse_pat
             all_pages.difference_update(degrees)
 
         current_degree_pages = current_degree_pages.union(all_pages)
-
         #if end link found return
         if end_link in all_pages:
             print("Found the Page in get_all_degree_links")
@@ -56,7 +56,6 @@ def get_all_reverse_degree_links(degree, start_degree_pages, start_link, path, e
 
 
         current_degree_pages = current_degree_pages.union(all_pages)
-
         #if end link found return
         if end_link in all_pages:
             print("Found the Page in reverse Degree")
@@ -86,11 +85,14 @@ def degree_distance(start_link, end_link):
     #start with 1 degree
     degree_count = 1
 
-
     while degree_count < 12:
         print("Calling path")
+
+        # page_count = 0
+        
         # print(f"calling function with: path: {path[degree_count - 1]} and {end_link}")
         path.append(get_all_degree_links(1, path[degree_count - 1], end_link, path, reverse_path[-1]))
+
 
         #check if link in that degree
         # print(path)
@@ -121,7 +123,6 @@ def degree_distance(start_link, end_link):
             # print(path)
             print("They are {} clicks away".format(len(path) + len(reverse_path) - 2))
             return (len(path) + len(reverse_path) - 2)
-
 
 
 

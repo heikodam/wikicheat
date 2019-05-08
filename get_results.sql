@@ -313,3 +313,40 @@ SELECT u.full_name AS username, s.title AS start_page, e.title AS end_age, h.deg
 		ON h.user_id = u.user_id
         ORDER BY h.degrees_away DESC, h.runtime ASC
 		LIMIT 1;
+
+
+
+-- FROM OLD VERSION WITH RECORDS TABLE
+
+
+-- CREATE TABLE records (
+-- 	record_id SERIAL PRIMARY KEY,
+-- 	type_of_record TEXT NOT NULL,
+-- 	history_id INTEGER REFERENCES history(history_id)
+-- );
+
+-- INSERT INTO wikipages (title) VALUES ('Switzerland');
+-- INSERT INTO wikipages (title) VALUES ('Bern');
+-- INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) VALUES (11, 1, 1, 2, '00:02:21');
+
+-- INSERT INTO records (type_of_record, history_id) VALUES ('longest_runtime', 1);
+-- INSERT INTO records (type_of_record, history_id) VALUES ('shortest_runtime', 1);
+-- INSERT INTO records (type_of_record, history_id) VALUES ('longest_path', 1);
+-- INSERT INTO records (type_of_record, history_id) VALUES ('most_recent', 1);
+
+
+
+DROP FUNCTION IF EXISTS insert_user(text, text, text, text);
+CREATE OR REPLACE FUNCTION insert_user(user_name TEXT, user_email TEXT, user_hash TEXT, gender_name TEXT)
+RETURNS integer AS $$
+BEGIN
+INSERT INTO users 
+(full_name, email, hash, gender) 
+VALUES (user_name, user_email, user_hash, (get_gender_id(gender_name)));
+
+RETURN (SELECT user_id FROM users WHERE email = email);
+END
+$$
+LANGUAGE 'plpgsql';
+															
+SELECT * FROM insert_user('mouse', 'mouse@gmail.com', 'hash', 'male');

@@ -1,11 +1,14 @@
 import time
 from web_scraper import checkIfExsits
 from fast import degree_distance
-from connect_db_test import get_db
+from db import get_db
 from flask import session
 
 
 def wikicheat(start_link, end_link):
+    start_link = start_link.lower()
+    end_link = end_link.lower()
+
     start_time = time.time()
     path_length = degree_distance(start_link, end_link)
     runtime = round(time.time() - start_time, 3)
@@ -13,6 +16,7 @@ def wikicheat(start_link, end_link):
     start_time = time.time()
     user_id = session['user_id']
     cursor = get_db()
+    # ON CONFLICT so that I do not need to run two queries first to check if it exists and then insert
     cursor.execute("INSERT INTO wikipages (title) VALUES (%s) ON CONFLICT DO NOTHING;", (start_link, ))
     cursor.execute("INSERT INTO wikipages (title) VALUES (%s) ON CONFLICT DO NOTHING;", (end_link,))
     cursor.execute("""INSERT INTO history (user_id, start_link, end_link, degrees_away, runtime) 

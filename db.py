@@ -1,4 +1,7 @@
 import psycopg2
+import click
+from flask import current_app, g
+from flask.cli import with_appcontext
 
 
 def get_db():
@@ -27,17 +30,3 @@ def get_record(command):
             "runtime": rows[0][4],
         }
     return current_record
-
-# cursor = get_db()
-
-# cursor.execute("SELECT get_gender_id('male');")
-# id = cursor.fetchall()[0][0]
-# print(id)
-
-# def close_db(e=None):
-#     db = g.pop('db', None)
-
-#     if db is not None:
-#         db.close()
-
-# connection.close()

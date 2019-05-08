@@ -7,7 +7,7 @@ import psycopg2
 import time
 
 #my imports
-from connect_db_test import *
+from db import *
 from web_scraper import checkIfExsits
 from fast import degree_distance
 from wikicheat import *
@@ -42,21 +42,14 @@ def register():
         
         #get data from db
         cursor = get_db()
-        
-        #check if email already exists
-        cursor.execute("SELECT email FROM users WHERE email = %s ", (entered_email, ))
-
-        user = cursor.fetchall()
-        if len(user) > 0:
-            return render_template("registration.html", errormessage = "There is already an email assigned to this account")
-
+         
         hash = generate_password_hash(entered_password)
-        cursor.execute("SELECT get_gender_id(%s);", (entered_gender,))
-        gender_id = cursor.fetchall()[0][0]
-        cursor.execute("INSERT INTO users (full_name, email, hash, gender) VALUES (%s, %s, %s, %s);", (entered_name, entered_email, hash, gender_id, ))
-
-        cursor.execute("SELECT user_id FROM users WHERE email = %s ", (entered_email, ))
+        
+        cursor.execute("SELECT * FROM insert_user(%s, %s, %s, %s);", (entered_name, entered_email, hash, entered_gender, ))
         user_id = cursor.fetchall()[0][0]
+
+        if user_id == None:
+            return render_template("registration.html", errormessage = "There is already an account assigned to this account email")
 
         session['user_id'] = user_id
         session['user_engagement'] = { "event": "engagement", "user_id": user_id, "games_played": 0}
@@ -185,7 +178,7 @@ def settings():
             cursor = get_db()
             user_id = session['user_id']
             cursor.execute("""SELECT u.full_name, u.email, d.gender FROM users u 
-                                JOIN gender d 
+                                INNER JOIN gender d 
                                 ON u.gender = d.gender_id
                                 WHERE user_id = %s;  
                                 """, (user_id, ))
@@ -209,11 +202,13 @@ def statistics():
 
         users_records = {}
 
+        # get the records
         users_records['most_recent'] = get_record("SELECT * FROM most_recent;")
         users_records['longest_path'] = get_record("SELECT * FROM longest_path;")
         users_records['longest_runtime'] = get_record("SELECT * FROM longest_runtime;")
         users_records['shortest_runtime'] = get_record("SELECT * FROM shortest_runtime;")
 
+        # Get the most popular start and end page
         cursor.execute("SELECT * FROM mp_start_page;")
         db_start_page = cursor.fetchall()
 
