@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 
 def get_db():
     connection = psycopg2.connect(
-        host = "35.242.229.99",
+        host = "localhost",
         database = "postgres",
         user = "postgres",
         password = "HDamaske",
